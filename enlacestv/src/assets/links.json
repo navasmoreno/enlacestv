@@ -1,0 +1,158 @@
+[
+    {
+        "id": "ES",
+        "label":"ESPAÑA",
+        "chanels": {
+            "LALIGA TV BAR 1080": [
+                "acestream://aa82e7d4f03061f2144a2f4be22f2e2210d42280"
+            ],
+            "LALIGA HYPERMOTION1080": [
+                "acestream://4c46585214b23b1d802ef2168060c7649a3894cf"
+            ],
+            "LALIGA HYPERMOTION720": [
+                "acestream://06b367c22394a1358c9cefa0cb5d0b64b9b2b3f4"
+            ],
+            "LALIGA HYPERMOTION2 1080": [
+                "acestream://cf6249379184d88a61f9db617341c6b6e6abb342"
+            ],
+            "LALIGA HYPERMOTION2 720": [
+                "acestream://d9cf1776ec4443e88aab3ca4b57647b00b4e439e"
+            ],
+            "DAZN 1 1080": [
+                "acestream://8ca07071b39185431f8e940ec98d1add9e561639"
+            ],
+            "DAZN 1 720": [
+                "acestream://eaff9293c76a324c750ef5094c2a4e2c96518d1f"
+            ],
+            "#VAMOS 1080": [
+                "acestream://859bb6295b8d0f224224d3063d9db7cdeca03122"
+            ],
+            "#VAMOS 720": [
+                "acestream://3bba7c95857c2502c7e03ced1a6a9b00eb567fa0"
+            ],
+            "M. DEPORTES 3 1080": [
+                "acestream://aee0a595220e0f1c2fee725fd1dbc602d7152a9a"
+            ]
+        }
+    },
+    {
+        "id": "PT",
+        "label":"PORTUGAL",
+        "chanels": {
+            "SPORT TV 3 HD 1080": [
+                "acestream://f8cb9d9e3077eb3ae417b2d95a69c5f590760eb9"
+            ],
+            "SPORT TV 2 HD 1080": [],
+            "ELEVEN SPORTS 1 HD": [],
+            "SPORT TV 1 HD 1080": [],
+            "ELEVEN SPORTS 2 HD": []
+        }
+    },
+    {
+        "id": "UK",
+        "label":"UKRANIA",
+        "chanels": {
+            "VIAPLAY SPORTS 1": [
+                "acestream://75a56863b6fe0407ad4305b4d7ee5643c3923565"
+            ],
+            "VIAPLAY SPORTS 2": [
+                "acestream://4903ca695edb64bc72ae29eb85a5333ba0139537"
+            ],
+            "BT SPORT 2 FHD": [
+                "acestream://d63d8a57cf471394bfa9f619bbd68b01ae27a801"
+            ],
+            "SKY SPORTS PREMIER LEAGUE": [
+                "acestream://ec5eabe0144ccfffc337e1d6708e2afb81d0638e"
+            ],
+            "SKY SPORTS FOOTBALL 1080": [
+                "acestream://8dbe2d515e9131fa311353537736f8c94be9b26d"
+            ],
+            "SKY SPORTS MAIN EVENT": [
+                "acestream://eab7aeef0218ce8b0752e596e4792b69eda4df5e"
+            ]
+        }
+    },
+    {
+        "id": "US",
+        "label":"USA",
+        "chanels": {
+            "FOX SPORTS 1 HD": [
+                "acestream://c9c062941fbecb16ce29437f346ea7177d720898"
+            ],
+            "FOX SPORTS 2 HD": [
+                "acestream://cba8d369eac629b577750edb90370cd1c5fb03b7"
+            ]
+        }
+    },
+    {
+        "id": "RU",
+        "label":"RUMANIA",
+        "chanels": {
+            "MATCH! FOOTBALL 1": [],
+            "OKKO SPORT": [
+                "acestream://e38b33c56332de27ff25df223cdf488b1ec6051f"
+            ],
+            "MATCH PREMIER": [
+                "acestream://4b7c5f21b435d79c823e47572655a9c157a3ba12"
+            ],
+            "MATCH PRIMIER": [
+                "acestream://ff126d47dc3e3eb69552f240ce824567580f9901"
+            ],
+            "MATCH! FOOTBALL 2": [],
+            "MATCH! FOOTBALL 3": []
+        }
+    },
+    {
+        "id": "BE",
+        "label":"BELGICA",
+        "chanels": {
+            "ELEVEN SPORTS 1 HD": [
+                "acestream://36cad67fed5a739757a9db844a551aa845a8d51b"
+            ],
+            "ELEVEN SPORTS 2 HD": [
+                "acestream://d08013df6e437a1fdf1e0c34f573fdf6a40c7fce"
+            ]
+        }
+    },
+    {
+        "id": "PL",
+        "label":"POLONIA",
+        "chanels": {
+            "POLSAT SPORT PREMIUM 1": [
+                "acestream://4ce55db7e578ff52a6e526cf610e477464b8a99f"
+            ],
+            "CANAL+ SPORT 1 HD": [
+                "acestream://cc7b8c39f70aa342248d02c8ab55bafdb4116ed7"
+            ],
+            "POLSAT SPORT PREMIUM 2": []
+        }
+    },
+    {
+        "id": "DE",
+        "label":"ALEMANIA",
+        "chanels": {
+            "DAZN 1 BAR HD": [
+                "acestream://897e73c9d578848f596585314ecb9ae067c0e229"
+            ]
+        }
+    },
+    {
+        "id": "FR",
+        "label":"FRANCIA",
+        "chanels": {
+            "BEIN SPORTS 1": [
+                "acestream://bba1905fcd1c4975aec544047bf8e4cd23ce3fe0"
+            ],
+            "BEIN SPORTS 2": [
+                "acestream://edb507e38394d614c9ff55805c9d354ae13210bc"
+            ]
+        }
+    },
+    {
+        "id": "NL",
+        "label":"HOLANDA",
+        "chanels": {
+            "ESPN 1": []
+        }
+    }
+]

@@ -1,0 +1,164 @@
+[
+    {
+        "id": "US",
+        "chanels": {
+            "FOX SPORTS 1 HD": [
+                "acestream://c9c062941fbecb16ce29437f346ea7177d720898"
+            ],
+            "FOX SPORTS 2 HD": [
+                "acestream://cba8d369eac629b577750edb90370cd1c5fb03b7"
+            ],
+            "ESPN2 USA 1080": [
+                "acestream://664eb5fe460b96941aed633959a845b185cd8394"
+            ]
+        }
+    },
+    {
+        "id": "RU",
+        "chanels": {
+            "MATCH! FOOTBALL 2": [],
+            "MATCH PREMIER": [
+                "acestream://4b7c5f21b435d79c823e47572655a9c157a3ba12"
+            ],
+            "MATCH PRIMIER": [
+                "acestream://ff126d47dc3e3eb69552f240ce824567580f9901"
+            ],
+            "MATCH! FOOTBALL 1": [],
+            "MATCH! FOOTBALL 3": []
+        }
+    },
+    {
+        "id": "PT",
+        "chanels": {
+            "ELEVEN SPORTS 2 HD": [],
+            "ELEVEN SPORTS 3 HD": [],
+            "ELEVEN SPORTS 1 HD": [],
+            "ELEVEN SPORTS 5 HD": [
+                "acestream://4dbe63b44fc4f439f5b634c0d2aa7e0cccad808a"
+            ],
+            "ELEVEN SPORTS 4 HD": [],
+            "ELEVEN SPORTS 6 HD": [
+                "acestream://50b6d2b5fd59fefb9f4fd2176994d418f2b94a80"
+            ],
+            "SPORT TV 3 HD 1080": [
+                "acestream://f8cb9d9e3077eb3ae417b2d95a69c5f590760eb9"
+            ],
+            "SPORT TV 1 HD 1080": []
+        }
+    },
+    {
+        "id": "PL",
+        "chanels": {
+            "POLSAT SPORT PREMIUM 1": [
+                "acestream://4ce55db7e578ff52a6e526cf610e477464b8a99f"
+            ],
+            "POLSAT SPORT PREMIUM 2": []
+        }
+    },
+    {
+        "id": "ES",
+        "chanels": {
+            "M.L. CAMPEONES 3 1080": [
+                "acestream://ecf4ec41200785812c140e3d1050b412f1519fa7"
+            ],
+            "M.L. CAMPEONES 3 720": [
+                "acestream://d59fe9978eed49f256b312a60671b5bce43d3f24"
+            ],
+            "M.L. CAMPEONES 2 1080": [
+                "acestream://fc2fe31b0bce25e2dc7ab4d262bf645e2be5a393"
+            ],
+            "M.L. CAMPEONES 2 720": [
+                "acestream://6753492c1908274c268a1b28e2a054a0ff8f86f9"
+            ],
+            "LALIGA TV BAR 1080": [
+                "acestream://aa82e7d4f03061f2144a2f4be22f2e2210d42280"
+            ],
+            "M. LALIGA 4 1080": [
+                "acestream://aa8f826da70e27a26b29c7b32402f17e8a67a8b0"
+            ],
+            "#VAMOS 1080": [
+                "acestream://859bb6295b8d0f224224d3063d9db7cdeca03122"
+            ],
+            "#VAMOS 720": [
+                "acestream://3bba7c95857c2502c7e03ced1a6a9b00eb567fa0"
+            ],
+            "M.L. CAMPEONES 1080": [],
+            "M.L. CAMPEONES 720": [
+                "acestream://90beb42e9e276854348bc91a9ff3c3e46c617495"
+            ],
+            "M.L. CAMPEONES 6 SD": [
+                "acestream://e9950ec551124c490ecbc2526a83d2c5a4516293"
+            ],
+            "M.L. CAMPEONES 5 SD": [
+                "acestream://4b4a77f005ea45e57276ff9d90c3830b3c59010d"
+            ],
+            "M.L. CAMPEONES 7 SD": [
+                "acestream://d84a90adb6998083403f610ab3fae340b5711b1e"
+            ],
+            "M. DEPORTES 1080": [
+                "acestream://d00223931b1854163e24c5c22475015d7d45c112"
+            ],
+            "M. DEPORTES 720": [
+                "acestream://e5fa927d9a017f4523fdb62774a0aec457985bfa"
+            ]
+        }
+    },
+    {
+        "id": "UK",
+        "chanels": {
+            "BT SPORT 1 FHD": [
+                "acestream://efc60cfe5e3a349baa02bcc49f6647c21a9c3c5b"
+            ],
+            "BT SPORT 3 FHD": [
+                "acestream://5f966c123759de46dff29c379266b7a403452033"
+            ],
+            "SKY SPORTS ARENA": [
+                "acestream://d317a003e8047da2c36a2a2bb2289578c9a3b79c"
+            ],
+            "SKY SPORTS MAIN EVENT": [
+                "acestream://eab7aeef0218ce8b0752e596e4792b69eda4df5e"
+            ],
+            "SKY SPORTS FOOTBALL 1080": [
+                "acestream://8dbe2d515e9131fa311353537736f8c94be9b26d"
+            ],
+            "BT SPORT 4 FHD": [
+                "acestream://fc5089d8e1519872fdf951779ccbca913acc9bce"
+            ],
+            "BT SPORT 2 FHD": [
+                "acestream://d63d8a57cf471394bfa9f619bbd68b01ae27a801"
+            ],
+            "VIAPLAY SPORTS 1": [
+                "acestream://75a56863b6fe0407ad4305b4d7ee5643c3923565"
+            ],
+            "VIAPLAY SPORTS 2": [
+                "acestream://4903ca695edb64bc72ae29eb85a5333ba0139537"
+            ]
+        }
+    },
+    {
+        "id": "FR",
+        "chanels": {
+            "BEIN SPORTS 1": [
+                "acestream://bba1905fcd1c4975aec544047bf8e4cd23ce3fe0"
+            ]
+        }
+    },
+    {
+        "id": "DE",
+        "chanels": {
+            "DAZN 2 BAR HD": [
+                "acestream://12ea555d431dbe51fc8e4ca745aec09fe22a4865"
+            ],
+            "DAZN 1 BAR HD": [
+                "acestream://897e73c9d578848f596585314ecb9ae067c0e229"
+            ]
+        }
+    },
+    {
+        "id": "NL",
+        "chanels": {
+            "ESPN 2": [],
+            "ESPN 1": []
+        }
+    }
+]
