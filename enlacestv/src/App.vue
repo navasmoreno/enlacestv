@@ -4,48 +4,6 @@
     <div class="columns">
       <div class="column"></div>
       <div class="column is-three-quarters">
-        <!-- <div v-for="item in items">
-          <table class="table is-bordered is-striped is-narrow is-hoverable">
-            <thead>
-              <tr>
-                <th colspan="2">
-                  [{{ item.id }}]{{ item.label || "" }}
-                </th>
-              </tr>
-            </thead>
-            <tbody>
-              <tr>
-                <td>CANALES </td>
-              </tr>
-              <tr>
-                <td class="is-primary">
-                  <div class="columns is-multiline is-mobile column-gap">
-                    <div v-for="(chanel, key) in item.chanels" class="column column is-4">
-                      <div class="card text-center">
-                        <div class="card-content">
-                          <div class="card-header">
-                            <div class="card-header-title">
-                              {{ key }}
-                            </div>
-                          </div>
-                          <div class="content pt-2">
-                            <div class="buttons">
-                              <button v-for="(link, index) in chanel" class="button is-link is-light is-medium"
-                                :title="link">
-                                <a :href="link" rel="nofollow">Link {{ index + 1 }}</a>
-                              </button>
-                            </div>
-                          </div>
-                        </div>
-                      </div>
-                    </div>
-                  </div>
-                </td>
-              </tr>
-            </tbody>
-          </table>
-        </div> -->
-        <!-- -------------------------------------------------- -->
         <section class="accordions">
           <article v-for="item in items" class="accordion is-primary">
             <div class="accordion-header toggle">
@@ -59,15 +17,17 @@
                       <div class="card-content">
                         <div class="card-header">
                           <div class="card-header-title">
+                            <font-awesome-icon icon="fa-solid fa-desktop" class="mr-1" />
                             {{ key }}
                           </div>
                         </div>
                         <div class="content pt-2">
                           <div class="buttons">
-                            <button v-for="(link, index) in chanel" class="button is-link is-light is-medium"
-                              :title="link">
-                              <a :href="link" rel="nofollow">Link {{ index + 1 }}</a>
-                            </button>
+                            <a v-for="(link, index) in chanel" class="button is-link is-light is-medium" :title="link"
+                              :href="link" rel="nofollow">
+                              <div>Link {{ index + 1 }}</div>
+                              <font-awesome-icon icon="fa-solid fa-up-right-from-square" />
+                            </a>
                           </div>
                         </div>
                       </div>
@@ -138,9 +98,9 @@ export default {
               if (chanel.length > 0) {
                 chanel = chanel.toUpperCase();
                 if (destino[index].chanels.hasOwnProperty(chanel)) {
-                  destino[index].chanels[chanel] = [...new Set(destino[index].chanels[chanel].concat(item.chanels[chanel]))];
-                } else {
-                  destino[index].chanels[chanel] = item.chanels[chanel];
+                  destino[index].chanels[chanel] = [...new Set(destino[index].chanels[chanel].concat(item.chanels[chanel].filter(x => x.trim().length > 0)))];
+                } else if (item.chanels[chanel].length > 0) {
+                  destino[index].chanels[chanel] = item.chanels[chanel].filter(x => x.trim().length > 0);
                 }
               }
             });
