@@ -2,32 +2,35 @@
   <p>Enlaces para Acestream</p>
   <div class="content">
     <div class="columns">
-      <div class="column"></div>
-      <div class="column is-three-quarters">
-        <section class="accordions">
-          <article v-for="item in items" class="accordion is-primary">
-            <div class="accordion-header toggle">
-              <p>[{{ item.id }}] {{ item.label || "" }}</p>
-            </div>
-            <div class="accordion-body">
-              <div class="accordion-content">
-                <div class="columns is-multiline is-mobile column-gap">
-                  <div v-for="(chanel, key) in item.chanels" class="column column is-4">
-                    <div class="card text-center">
-                      <div class="card-content">
-                        <div class="card-header">
-                          <div class="card-header-title">
-                            <font-awesome-icon icon="fa-solid fa-desktop" class="mr-1" />
-                            {{ key }}
-                          </div>
-                        </div>
-                        <div class="content pt-2">
-                          <div class="buttons">
-                            <a v-for="(link, index) in chanel" class="button is-link is-light is-medium" :title="link"
-                              :href="link" rel="nofollow">
-                              <div>Link {{ index + 1 }}</div>
-                              <font-awesome-icon icon="fa-solid fa-up-right-from-square" />
-                            </a>
+      <div class="column is-10 is-offset-1">
+        <div>
+          <section class="accordions">
+            <article v-for="item in items" class="accordion is-primary">
+              <div class="accordion-header toggle">
+                <p>[{{ item.id }}] {{ item.label || "" }}</p>
+              </div>
+              <div class="accordion-body">
+                <div class="accordion-content">
+                  <div class="content">
+                    <div class="columns is-multiline is-mobile column-gap">
+                      <div v-for="(chanel, key) in item.chanels" class="column is-one-quarter-desktop">
+                        <div class="card text-center">
+                          <div class="card-content">
+                            <div class="card-header">
+                              <div class="card-header-title">
+                                <font-awesome-icon icon="fa-solid fa-desktop" class="mr-1" />
+                                {{ key }}
+                              </div>
+                            </div>
+                            <div class="content pt-2">
+                              <div class="buttons">
+                                <a v-for="(link, index) in chanel" class="button is-link is-light is-medium is-full"
+                                  :title="link" :href="link" rel="nofollow" style="width: 100%;">
+                                  <p class="mr-3 mb-0">Link {{ index + 1 }}</p>
+                                  <font-awesome-icon icon="fa-solid fa-up-right-from-square" />
+                                </a>
+                              </div>
+                            </div>
                           </div>
                         </div>
                       </div>
@@ -35,11 +38,10 @@
                   </div>
                 </div>
               </div>
-            </div>
-          </article>
-        </section>
+            </article>
+          </section>
+        </div>
       </div>
-      <div class="column"></div>
     </div>
   </div>
 </template>
@@ -64,10 +66,10 @@ export default {
     }
   },
   methods: {
-    getData(service){
+    getData(service) {
       var items = [];
       service.getItems().then(data => {
-        this.items=data;
+        this.items = data;
         console.log(this.items);
         bulmaAccordion.attach();
       });
@@ -143,5 +145,9 @@ export default {
   text-align: center;
   color: #2c3e50;
   margin-top: 60px;
+
+  .accordions .accordion.is-active .accordion-body {
+    max-height: 100%;
+  }
 }
 </style>
