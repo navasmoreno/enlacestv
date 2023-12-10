@@ -1,5 +1,5 @@
 #Descarga la imagen node para instalar angular
-FROM node:lts-alpine3.16
+FROM node:lts-alpine
 
 ARG APP_NAME
 
@@ -14,14 +14,17 @@ ARG APP_NAME
 #     && npm run serve;
 
 #Para proyecto migrado
-# WORKDIR /usr/src/apps/${APP_NAME}
+WORKDIR /usr/src/apps/${APP_NAME}
 # COPY package*.json 
 # CMD mkdir ./node_modules; npm install; npm start; npm run serve;
+CMD npm install &&\
+    chmod 777 -R .&&\ 
+    npm run serve;
 
 # Para proyecto en desarrollo
-WORKDIR /usr/src/apps/${APP_NAME}
-RUN npm i -g yarn --force;
-CMD chmod 777 -R .&&\
-    npm run serve;
+# WORKDIR /usr/src/apps/${APP_NAME}
+# RUN npm i -g yarn --force;
+# CMD chmod 777 -R .&&\
+#     npm run serve;
 
 EXPOSE 8080
