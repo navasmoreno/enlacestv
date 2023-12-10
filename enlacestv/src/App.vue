@@ -1,13 +1,20 @@
 <template>
-  <p>Enlaces para Acestream</p>
   <div class="content">
+    <div class="columns is-vcentered">
+      <div class="column is-9 is-offset-1">
+        <p class="is-size-1">Enlaces para Acestream</p>
+      </div>
+      <div class="column is-1 is-pulled-right">
+        <img class="" src="@/assets/logo.png" />
+      </div>
+    </div>
     <div class="columns">
       <div class="column is-10 is-offset-1">
         <div>
           <section class="accordions">
             <article v-for="item in items" class="accordion is-primary">
               <div class="accordion-header toggle">
-                <p>[{{ item.id }}] {{ item.label || "" }}</p>
+                <p class="is-size-4 has-text-weight-bold">[{{ item.id }}] {{ item.label || "" }}</p>
               </div>
               <div class="accordion-body">
                 <div class="accordion-content">
@@ -26,7 +33,7 @@
                               <div class="buttons">
                                 <a v-for="(link, index) in chanel" class="button is-link is-light is-medium is-full"
                                   :title="link" :href="link" rel="nofollow" style="width: 100%;">
-                                  <p class="mr-3 mb-0">Link {{ index + 1 }}</p>
+                                  <p class="mr-3 mb-0 is-uppercase">Enlace {{ index + 1 }}</p>
                                   <font-awesome-icon icon="fa-solid fa-up-right-from-square" />
                                 </a>
                               </div>
@@ -59,7 +66,6 @@ export default {
   data() {
     var service = new ChanelService();
     this.getData(service);
-    console.log(items);
     return {
       items: [],
       accordions: []
@@ -69,8 +75,7 @@ export default {
     getData(service) {
       var items = [];
       service.getItems().then(data => {
-        this.items = data;
-        console.log(this.items);
+        this.items = this.incluirCanales(data);
         bulmaAccordion.attach();
       });
     },
@@ -81,8 +86,8 @@ export default {
      */
     incluirCanales(origen, destino = []) {
       origen = origen.sort((a, b) => {
-        if (a.id > b.id) return 1;
-        else if (a.id < b.id) return -1;
+        if (a.label > b.label) return 1;
+        else if (a.label < b.label) return -1;
         else return 0;
       });
       for (var i in origen) {
@@ -95,8 +100,8 @@ export default {
         ) {
           var id = item.id;
           var chanels = Object.keys(item.chanels).sort((a, b) => {
-            if (a.id > b.id) return 1;
-            else if (a.id < b.id) return -1;
+            if (a > b) return 1;
+            else if (a < b) return -1;
             else return 0;
           });
           if (destino.some(x => x.id == id)) {
