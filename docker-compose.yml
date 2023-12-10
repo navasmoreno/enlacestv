@@ -6,9 +6,6 @@ services:
     # La imagen del contenedor se construye sobre una adecuando las necesidades
     env_file:
       - .env
-    environment:
-      - VUE_APP_USER=asdfasfd
-      - VUE_APP_PSWD=******
     build: 
       dockerfile: ./dockerfile
       args:

@@ -45,31 +45,33 @@
 </template>
 
 <script>
-import links from "./assets/links.json";
-import links2 from "./assets/links2.json";
-import links3 from "./assets/links3.json";
-
 import bulmaAccordion from 'bulma-extensions/bulma-accordion/dist/js/bulma-accordion.min.js'
 import 'bulma-extensions/bulma-accordion/dist/css/bulma-accordion.min.css';
-
+import ChanelService from './services/chanel.service';
+var items = null;
 export default {
-  name: 'CAnales',
+  name: 'Canales',
   mounted: () => {
-    console.log(process.env)
-    this.accordions = bulmaAccordion.attach(); // accordions now contains an array of all Accordion instances
-
+    bulmaAccordion.attach(); // accordions now contains an array of all Accordion instances
   },
   data() {
-    // var items = links;
-    var items = this.incluirCanales(links);
-    items = this.incluirCanales(links2, items);
-    items = this.incluirCanales(links3, items);
+    var service = new ChanelService();
+    this.getData(service);
+    console.log(items);
     return {
-      items: items,
+      items: [],
       accordions: []
     }
   },
   methods: {
+    getData(service){
+      var items = [];
+      service.getItems().then(data => {
+        this.items=data;
+        console.log(this.items);
+        bulmaAccordion.attach();
+      });
+    },
     /**
      * Incluye los elementos origen en destino si no existen
      * @param {*} origen 

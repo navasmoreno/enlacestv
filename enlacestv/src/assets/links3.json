@@ -180,6 +180,11 @@
             ],
             "VIAPLAY SPORTS 2": [
                 "acestream://4903ca695edb64bc72ae29eb85a5333ba0139537"
+            ],
+            "SPORT": [
+                "acestream://2edb2662bcd3a1b5a3da500906ccd85ab7c7906c",
+                "acestream://e8cf0dde4dff2732a57f16a3648182248c7d0652",
+                "acestream://c79d0c05b9fd9dffcacdaeb6b309b1f629c8004e"
             ]
         }
     },
@@ -286,6 +291,12 @@
     {
         "id": "USA",
         "chanels": {
+            "FOX SPORTS 1 HD": [
+                "acestream://c9c062941fbecb16ce29437f346ea7177d720898"
+            ],
+            "ESPN2 USA 1080": [
+                "acestream://664eb5fe460b96941aed633959a845b185cd8394"
+            ],
             "SPORTS": [
                 "acestream://4baac8f74338a7fe678cd33767fa9cba68509262"
             ]
@@ -306,27 +317,6 @@
             "SPORT": [
                 "acestream://a97cafedefe189d63e52eadc5c9bbc351b01540a",
                 "acestream://737598e599fca61f65833e03be414121c3d56d2b"
-            ]
-        }
-    },
-    {
-        "id": "UKR",
-        "chanels": {
-            "SPORT": [
-                "acestream://2edb2662bcd3a1b5a3da500906ccd85ab7c7906c",
-                "acestream://e8cf0dde4dff2732a57f16a3648182248c7d0652",
-                "acestream://c79d0c05b9fd9dffcacdaeb6b309b1f629c8004e"
-            ]
-        }
-    },
-    {
-        "id": "US",
-        "chanels": {
-            "FOX SPORTS 1 HD": [
-                "acestream://c9c062941fbecb16ce29437f346ea7177d720898"
-            ],
-            "ESPN2 USA 1080": [
-                "acestream://664eb5fe460b96941aed633959a845b185cd8394"
             ]
         }
     }
