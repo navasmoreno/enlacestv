@@ -1,20 +1,20 @@
 <template>
-  <div class="content">
-    <div class="columns is-vcentered">
-      <div class="column is-9 is-offset-1">
-        <p class="is-size-1">Enlaces para Acestream</p>
+  <div class="container is-fluid-tablet is-mobile">
+    <div class="columns is-vcentered is-mobile">
+      <div class="column is-8 is-offset-1 p-0">
+        <div class="is-size-4-mobile is-size-3-tablet is-size-1-desktop">Enlaces para Acestream</div>
       </div>
-      <div class="column is-1 is-pulled-right">
-        <img class="" src="@/assets/logo.png" />
+      <div class="column is-2 is-pulled-right">
+        <img class="image" src="@/assets/logo.png" />
       </div>
     </div>
     <div class="columns">
-      <div class="column is-10 is-offset-1">
-        <div>
+      <div class="column is-10-desktop is-full is-offset-1-desktop p-0">
+        <div class="">
           <section class="accordions">
             <article v-for="item in items" class="accordion is-primary">
               <div class="accordion-header toggle">
-                <p class="is-size-4 has-text-weight-bold">[{{ item.id }}] {{ item.label || "" }}</p>
+                <div class="has-text-left has-text-weight-bold is-size-4 pl-4 " style="width: 100%;">[{{ item.id }}] {{ item.label || "" }}</div>
               </div>
               <div class="accordion-body">
                 <div class="accordion-content">
