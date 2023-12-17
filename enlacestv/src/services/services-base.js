@@ -38,7 +38,7 @@ export class ServicesBase {
         }
         if (this.querySnapshot != null) {
             this.querySnapshot.forEach((doc) => {
-                items.push(doc.data());
+                items.push({id:doc.id,data:doc.data()});
             });
         }
         return items;

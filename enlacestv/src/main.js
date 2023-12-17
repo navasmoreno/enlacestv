@@ -8,11 +8,13 @@ import { library } from '@fortawesome/fontawesome-svg-core'
 import { FontAwesomeIcon } from '@fortawesome/vue-fontawesome'
 
 /* import specific icons */
-import { faUpRightFromSquare,faDesktop } from '@fortawesome/free-solid-svg-icons'
+import { faUpRightFromSquare,faDesktop,faThumbsUp,faThumbsDown } from '@fortawesome/free-solid-svg-icons'
 
 /* add icons to the library */
 library.add(faUpRightFromSquare);
 library.add(faDesktop);
+library.add(faThumbsUp);
+library.add(faThumbsDown);
 
 import '../node_modules/bulma/css/bulma.min.css'
 require('./style/main.scss');

@@ -1,5 +1,5 @@
 <template>
-  <div class="container is-fluid-tablet is-mobile">
+  <div class="container is-fluid is-mobile">
     <div class="columns is-vcentered is-mobile">
       <div class="column is-8 is-offset-1 p-0">
         <div class="is-size-4-mobile is-size-3-tablet is-size-1-desktop">Enlaces para Acestream</div>
@@ -14,7 +14,8 @@
           <section class="accordions">
             <article v-for="item in items" class="accordion is-primary">
               <div class="accordion-header toggle">
-                <div class="has-text-left has-text-weight-bold is-size-4 pl-4 " style="width: 100%;">[{{ item.id }}] {{ item.label || "" }}</div>
+                <div class="has-text-left has-text-weight-bold is-size-4 pl-4 " style="width: 100%;">[{{ item.id }}] {{
+                  item.label || "" }}</div>
               </div>
               <div class="accordion-body">
                 <div class="accordion-content">
@@ -31,11 +32,29 @@
                             </div>
                             <div class="content pt-2">
                               <div class="buttons">
-                                <a v-for="(link, index) in chanel" class="button is-link is-light is-medium is-full"
-                                  :title="link" :href="link" rel="nofollow" style="width: 100%;">
-                                  <p class="mr-3 mb-0 is-uppercase">Enlace {{ index + 1 }}</p>
-                                  <font-awesome-icon icon="fa-solid fa-up-right-from-square" />
-                                </a>
+                                <div v-for="(link, index) in chanel" class="" style="width: 100%;">
+                                  <a class="button is-link is-light is-medium is-full" :title="link" :href="link"
+                                    rel="nofollow" style="width: 100%;">
+                                    <p class="mr-3 mb-0 is-uppercase">Enlace {{ index + 1 }}</p>
+                                    <font-awesome-icon icon="fa-solid fa-up-right-from-square" />
+                                  </a>
+                                  <div class="is-flex justify-content">
+                                    <button class="button is-medium is-success is-flex-grow-1"
+                                      v-on:click="setUp(index, key, item._id)">
+                                      <font-awesome-icon icon="fa-solid fa-thumbs-up" />
+                                      <div class="ml-2">{{ item.hasOwnProperty('feedback') &&
+                                        item.feedback.hasOwnProperty(key) && item.feedback[key].length <= index + 1 ?
+                                        item.feedback[key][index].up : 0 }}</div>
+                                    </button>
+                                    <button class="button is-medium is-danger is-flex-grow-1"
+                                      v-on:click="setDown(index, key, item._id)">
+                                      <font-awesome-icon icon="fa-solid fa-thumbs-down" />
+                                      <div class="ml-2">{{ item.hasOwnProperty('feedback') &&
+                                        item.feedback.hasOwnProperty(key) && item.feedback[key].length <= index + 1 ?
+                                        item.feedback[key][index].down : 0 }}</div>
+                                    </button>
+                                  </div>
+                                </div>
                               </div>
                             </div>
                           </div>
@@ -58,6 +77,8 @@ import bulmaAccordion from 'bulma-extensions/bulma-accordion/dist/js/bulma-accor
 import 'bulma-extensions/bulma-accordion/dist/css/bulma-accordion.min.css';
 import ChanelService from './services/chanel.service';
 var items = null;
+
+
 export default {
   name: 'Canales',
   mounted: () => {
@@ -68,14 +89,15 @@ export default {
     this.getData(service);
     return {
       items: [],
-      accordions: []
+      accordions: [],
+      service: service
     }
   },
   methods: {
     getData(service) {
       var items = [];
-      service.getItems().then(data => {
-        this.items = this.incluirCanales(data);
+      service.getItems().then(items => {
+        this.items = this.incluirCanales(items);
         bulmaAccordion.attach();
       });
     },
@@ -86,12 +108,12 @@ export default {
      */
     incluirCanales(origen, destino = []) {
       origen = origen.sort((a, b) => {
-        if (a.label > b.label) return 1;
-        else if (a.label < b.label) return -1;
+        if (a.data.label > b.data.label) return 1;
+        else if (a.data.label < b.data.label) return -1;
         else return 0;
       });
       for (var i in origen) {
-        var item = origen[i];
+        var item = origen[i].data;
         if (
           item.hasOwnProperty("id")
           && item.hasOwnProperty("chanels")
@@ -119,9 +141,11 @@ export default {
 
           } else {
             var target = {
+              _id: origen[i].id,
               id: id,
               label: item.label,
-              chanels: {}
+              chanels: {},
+              feedback:item.feedback ?? {},
             }
             chanels.forEach(chanel => {
               chanel = chanel.toUpperCase();
@@ -136,6 +160,36 @@ export default {
         }
       }
       return destino;
+    },
+    setUp(index, key, id) {
+      this.setFeedback(true, id, key, index);
+    },
+    setDown(index, key, id) {
+      this.setFeedback(false, id, key, index);
+    },
+    setFeedback(value = null, id, chanel, index) {
+      var itemIndex = this.items.findIndex(x => x._id == id);
+      var item;
+      if (itemIndex != -1) {
+        if (this.items[itemIndex].hasOwnProperty("feedback") == false) {
+          this.items[itemIndex].feedback = {};
+        }
+        if (this.items[itemIndex].feedback.hasOwnProperty(chanel) == false) {
+          this.items[itemIndex].feedback[chanel] = [];
+        }
+        if (this.items[itemIndex].feedback[chanel].length < index + 1) {
+          for (var i = this.items[itemIndex].feedback[chanel].length; i <= index; i++) {
+            this.items[itemIndex].feedback[chanel][i] = { up: 0, down: 0 };
+          }
+        }
+        if (value === true)
+          this.items[itemIndex].feedback[chanel][index].up++;
+        if (value === false)
+          this.items[itemIndex].feedback[chanel][index].down++;
+        var data = {...this.items[itemIndex]}
+        delete data._id;
+        this.service.addCollectionDoc(this.items[itemIndex]._id,data);
+      }
     }
 
   }
@@ -154,5 +208,4 @@ export default {
   .accordions .accordion.is-active .accordion-body {
     max-height: 100%;
   }
-}
-</style>
+}</style>
