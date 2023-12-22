@@ -43,14 +43,14 @@
                                       v-on:click="setUp(index, key, item._id)">
                                       <font-awesome-icon icon="fa-solid fa-thumbs-up" />
                                       <div class="ml-2">{{ item.hasOwnProperty('feedback') &&
-                                        item.feedback.hasOwnProperty(key) && item.feedback[key].length <= index + 1 ?
+                                        item.feedback.hasOwnProperty(key) && index<item.feedback[key].length ?
                                         item.feedback[key][index].up : 0 }}</div>
                                     </button>
                                     <button class="button is-medium is-danger is-flex-grow-1"
                                       v-on:click="setDown(index, key, item._id)">
                                       <font-awesome-icon icon="fa-solid fa-thumbs-down" />
                                       <div class="ml-2">{{ item.hasOwnProperty('feedback') &&
-                                        item.feedback.hasOwnProperty(key) && item.feedback[key].length <= index + 1 ?
+                                        item.feedback.hasOwnProperty(key) && index<item.feedback[key].length ?
                                         item.feedback[key][index].down : 0 }}</div>
                                     </button>
                                   </div>
@@ -97,6 +97,7 @@ export default {
     getData(service) {
       var items = [];
       service.getItems().then(items => {
+      console.log(items)
         this.items = this.incluirCanales(items);
         bulmaAccordion.attach();
       });
