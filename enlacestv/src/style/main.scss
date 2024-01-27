@@ -1,1 +1,11 @@
 @import '~bulma';
+html {
+	scroll-behavior: smooth;
+}
+.rounded-icon {
+    border-radius: 10126px;
+    padding-left: calc(1em + 0.25em);
+    padding-right: calc(1em + 0.25em);
+    width: 42px !important;
+    height: 42px !important;
+}

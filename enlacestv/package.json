@@ -17,7 +17,8 @@
     "bulma-extensions": "^6.2.7",
     "core-js": "^3.8.3",
     "firebase": "^10.7.0",
-    "vue": "^3.2.13"
+    "vue": "^3.2.13",
+    "vue-router": "^4.2.5"
   },
   "devDependencies": {
     "@vue/cli-service": "~5.0.0",
