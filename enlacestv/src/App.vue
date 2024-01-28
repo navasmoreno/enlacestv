@@ -1,12 +1,9 @@
 <template>
-  <nav class="navbar has-background-grey-lighter" role="navigation" aria-label="main navigation">
-    <div class="navbar-brand">
-      <router-link class="navbar-item" to="/">
-        <img src="@/assets/logo.png">
-      </router-link>
-      <router-link class="navbar-item" to="/links">Enlaces</router-link>
-      <router-link class="navbar-item" to="/howtouse">Como usarlos</router-link>
+  <div class="is-flex is-flex-direction-column" style="height: inherit;">
+    <myheader class=""></myheader>
+    <div class="mt-6 py-2 content is-flex-grow-1">
+      <router-view></router-view>
     </div>
-  </nav>
-  <router-view></router-view>
+    <myfooter></myfooter>
+  </div>
 </template>

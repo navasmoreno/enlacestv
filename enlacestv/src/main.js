@@ -8,11 +8,12 @@ import { library } from '@fortawesome/fontawesome-svg-core'
 import { FontAwesomeIcon } from '@fortawesome/vue-fontawesome'
 
 /* import specific icons */
-import { faUpRightFromSquare, faDesktop, faThumbsUp, faThumbsDown, faArrowTurnUp } from '@fortawesome/free-solid-svg-icons'
+import { faUpRightFromSquare, faDesktop, faThumbsUp, faThumbsDown, faArrowTurnUp, faSpinner} from '@fortawesome/free-solid-svg-icons'
+import { far, faCopyright } from '@fortawesome/free-regular-svg-icons'
 import { fab,faGooglePay } from '@fortawesome/free-brands-svg-icons'
 
 /* add icons to the library */
-library.add(faUpRightFromSquare, faDesktop, faThumbsUp, faThumbsDown, faArrowTurnUp, faGooglePay,fab);
+library.add(faUpRightFromSquare, faDesktop, faThumbsUp, faThumbsDown, faArrowTurnUp, faGooglePay, faCopyright,fab, far, faSpinner);
 
 import '../node_modules/bulma/css/bulma.min.css'
 require('./style/main.scss');
@@ -24,12 +25,18 @@ import About from './views/About.vue'
 import Links from './views/Links.vue'
 import HowToUse from './views/HowToUse.vue'
 import NotFound from './views/NotFound.vue'
+import NewLink from './views/NewLink.vue'
+
+import Myheader from './components/myheader.vue';
+import Myfooter from './components/myfooter.vue';
 
 const routes = [
     { path: '/', component: Home },
     { path: '/about', component: About },
     { path: '/howtouse', component: HowToUse },
-    { path: '/links', component: Links }
+    { path: '/links', component: Links },
+    { path: '/newlink', component: NewLink },
+    { path: '/:catchAll(.*)', component: NotFound },
 ];
 const router = createRouter({
     history: createWebHistory(),
@@ -40,4 +47,6 @@ const router = createRouter({
 createApp(App)
     .use(router)
     .component('font-awesome-icon', FontAwesomeIcon)
+    .component('Myheader',Myheader)
+    .component('Myfooter',Myfooter)
     .mount('#app')
