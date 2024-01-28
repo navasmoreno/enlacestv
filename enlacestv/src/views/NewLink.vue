@@ -26,9 +26,9 @@
           <div class="field">
             <label class="label is-large">URL del Enlace. </label>
             <div class="control">
-              <input class="input is-large" type="text" id="link" placeholder="Enlace de acestream" required pattern="^(http|https):\/\/[w\d]+\.[\w](\/[\w\d]+)?$">
+              <input class="input is-large" type="text" id="link" placeholder="Enlace de acestream" required pattern="^(acestream:\/\/)([a-zA-Z0-9]+)$">
             </div>
-            <small>Formato valido: https://...</small>
+            <small>Formato valido: acestream://36cad67fed5a739757a9db844a551aa845a8d51b</small>
           </div>
 
           <div class="field is-grouped mt-6">
