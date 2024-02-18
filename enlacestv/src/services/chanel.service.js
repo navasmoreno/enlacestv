@@ -3,6 +3,6 @@ const name = "chanels";
 
 export default class Chanels extends ServicesBase {
   constructor() {
-    super(name);
+    super(name, process.env.VUE_APP_LOCALSTORAGE_CHANELS);
   }
 }

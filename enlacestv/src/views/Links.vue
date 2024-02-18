@@ -2,7 +2,12 @@
   <div class="container is-fluid is-mobile">
     <div class="columns is-vcentered is-mobile">
       <div class="column is-8 is-offset-1 p-0">
-        <div class="is-size-4-mobile is-size-3-tablet is-size-1-desktop">Enlaces para Acestream</div>
+        <div class="is-size-4-mobile is-size-3-tablet is-size-1-desktop">
+          <!-- <font-awesome-icon icon="fa-solid fa-rotate-right" :class="{ 'fa-spin': spin }"
+            class="is-clickable is-rounded mt-1 p-1 is-inverted is-info" @click="getData(this.service, true)"
+            title="Recargar elementos" /> -->
+          Enlaces para Acestream
+        </div>
       </div>
       <div class="column is-2 is-pulled-right">
         <img class="image" src="@/assets/logo.png" />
@@ -82,7 +87,7 @@ var items = null;
 export default {
   name: 'Links',
   mounted: () => {
-    bulmaAccordion.attach(); // accordions now contains an array of all Accordion instances
+    // bulmaAccordion.attach(); // accordions now contains an array of all Accordion instances
   },
   data() {
     var service = new ChanelService();
@@ -90,14 +95,16 @@ export default {
     return {
       items: [],
       accordions: [],
-      service: service
+      service: service,
+      spin: false
     }
   },
   methods: {
-    getData(service) {
+    getData(service, force = false) {
+      this.spin = true;
       var items = [];
-      service.getItems().then(items => {
-        console.log(items)
+      service.getItems(force).then(items => {
+        this.spin = false;
         this.items = this.incluirCanales(items);
         bulmaAccordion.attach();
       });
@@ -188,7 +195,7 @@ export default {
           this.items[itemIndex].feedback[chanel][index].down++;
         var data = { ...this.items[itemIndex] }
         delete data._id;
-        this.service.addCollectionDoc(this.items[itemIndex]._id, data);
+        this.service.updateDoc(this.items[itemIndex]._id, data);
       }
     }
 

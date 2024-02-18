@@ -54,7 +54,6 @@ import NewLinkService from '../services/newlink.service';
 export default {
   name: 'NewLink',
   mounted() {
-    console.log("mounted", this.service);
     document.getElementById("country").focus();
   },
   data() {
@@ -80,13 +79,16 @@ export default {
     sendData: function () {
       this.changeContainer();
       this.notifiactionMessage = null;
+      
       const data = {
-        country: document.getElementById("country").value,
-        chanel: document.getElementById("chanel").value,
+        country: document.getElementById("country").value.toUpperCase(),
+        chanel: document.getElementById("chanel").value.toUpperCase(),
         link: document.getElementById("link").value,
+        state: 0,
+        created:false,
+        createdon: new Date().toISOString()
       }
-      console.log("sendLink", data, this.service);
-      this.service.addCollectionDoc(Date.now().toString(), data).then(response => {
+      this.service.addDoc(data).then(response => {
         this.changeContainer();
         this.notifiactionType = "is-primary";
         this.notifiactionMessage = "Solicitud enviada";
