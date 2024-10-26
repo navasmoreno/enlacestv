@@ -5,8 +5,9 @@
         <div class="is-size-4-mobile is-size-3-tablet is-size-2-desktop">
           <p>
             Enlaces sugeridos
-            <font-awesome-icon icon="fa-solid fa-rotate-right" :class="{ 'fa-spin': spin }" class="is-clickable is-rounded mt-1 p-1 is-inverted is-info"
-              @click="getData(this.service, true)" title="Recargar elementos" />
+            <font-awesome-icon icon="fa-solid fa-rotate-right" :class="{ 'fa-spin': spin }"
+              class="is-clickable is-rounded mt-1 p-1 is-inverted is-info" @click="getData(true)"
+              title="Recargar elementos" />
           </p>
         </div>
       </div>
@@ -44,8 +45,8 @@
                       @click="changeState(item.id, 0)" :disabled="!!item.data.created">No</button>
                   </div>
                   <div v-if="item.data.hasOwnProperty('state') && item.data.state == 1">
-                    <button class="button is-success" :disabled="!!item.data.created"
-                      @click="add(item.id)" data-target="modal-js-example">
+                    <button class="button is-success" :disabled="!!item.data.created" @click="add(item.id)"
+                      data-target="modal-js-example">
                       <font-awesome-icon icon="fa-solid fa-plus" />
                     </button>
                   </div>
@@ -67,85 +68,75 @@
   <ModalAlert ref="alert_modal" :type="this.modaltype" :content="this.modalcontent" @callback="deleteSelectedItem">
   </ModalAlert>
 </template>
-  
+
 <script>
 import ModalAlert from '@/components/ModalAlert.vue';
 import ModalLinkAdd from '@/components/ModalLinkAdd.vue';
 import NewLinkService from '@/services/newlink.service';
+var service = new NewLinkService();
 
 export default {
   name: 'NewLinks',
-  beforeMount: () => {
-  },
-  mounted: () => {
-  },
   data() {
-    var service = new NewLinkService();
-    this.getData(service);
+    this.getData();
     return {
       items: [],
-      service: service,
       modalItem: null,
       modaltype: null,
       modalcontent: "",
-      selectedIndex: null,
       spin: false
     };
   },
   methods: {
-    getData(service, force = false) {
+    async getData(force = false) {
       this.spin = true;
-      service.getItems(force).then(result => {
+      var result = await service.getItems(force);
+      setTimeout(() => {
         this.items = result;
-        setTimeout(() => {
-          this.spin = false;
-        }, 1000);
-      });
+        this.spin = false;
+      }, 500);
     },
     changeState(id, state) {
-      var index = this.items.findIndex(x => x.id == id);
-      this.items[index].data['state'] = state;
-      this.service.updateDoc(id, this.items[index].data);
+      var item = this.items.find(x => x.id == id);
+      if (item) {
+        item.data.state = state;
+        service.updateDoc(id, item.data);
+      }
     },
     add(id) {
       this.modalItem = this.items.find(x => x.id == id);
       if (this.modalItem) {
         setTimeout(() => {
-          this.$refs.modal.open();          
+          this.$refs.modal.open();
         }, 200);
       }
     },
     remove(id) {
     },
     deleteNewLink(id) {
-      this.selectedIndex = this.items.findIndex(x => x.id == id);
-      if (this.selectedIndex >= 0) {
+      this.modalItem = this.items.find(x => x.id == id);
+      if (this.modalItem) {
         this.modaltype = "confirm_yesno";
         this.modalcontent = "Va a borrar este elemento, ¿Continuar?";
         this.$refs.alert_modal.open();
       }
     },
     async deleteSelectedItem(value) {
-      if (value && this.selectedIndex != null) {
-        this.service.deleteDoc(this.items[this.selectedIndex].id).then(response => {
-          console.log(response)
-          if (response) {
-            this.getData(this.service, true);
-          }
-          this.selectedIndex = null;
+      if (value && this.modalItem) {
+        service.deleteDoc(this.modalItem.id).then(response => {
+          this.modalItem = null;
         })
       }
     },
     linkSaved(response) {
-      console.log(response);
       this.modaltype = "alert";
       if (response) {
         this.modalcontent = "Link guardado";
-        this.selectedIndex = this.items.findIndex(x=>x.id==this.modalItem.id);
-        this.items[this.selectedIndex].data.created=true;
-        this.items[this.selectedIndex].data.chanel=response.chanel;
-        this.items[this.selectedIndex].data.country=response.country;
-        this.service.updateDoc(this.items[this.selectedIndex].id,this.items[this.selectedIndex].data);
+        this.modalItem.data.created = true;
+        this.modalItem.data.chanel = response.chanel;
+        this.modalItem.data.country = response.country;
+        service.updateDoc(this.modalItem.id, this.modalItem.data);
+        this.modalItem = null;
       } else {
         this.modalcontent = "Error al guardar";
       }
@@ -155,7 +146,7 @@ export default {
   components: { ModalLinkAdd, ModalAlert }
 }
 </script>
-  
+
 <style>
 #app {
   font-family: Avenir, Helvetica, Arial, sans-serif;
@@ -170,4 +161,3 @@ export default {
   }
 }
 </style>
-  

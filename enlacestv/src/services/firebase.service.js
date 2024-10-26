@@ -46,7 +46,7 @@ export class FirebaseService {
     try {
       var id = Date.now()+Math.random().toString(36).slice(6);
       await this.updateCollectionDoc(name, id.trim(), data);
-      return true;
+      return id;
     } catch (error) {
       return false;
     }
@@ -67,5 +67,8 @@ export class FirebaseService {
       console.error(error);
       return false;
     }
+  }
+  reference = (path) => {
+    return doc(this.db,path);
   }
 }
