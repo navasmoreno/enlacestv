@@ -18,41 +18,41 @@
         <div v-if="!!this.item">
           <div class="container">
             <div class="columns">
-              <div class="column">
-                <label for="datacountry">País propuesto</label>
+              <div class="column has-text-left">
+                <label class="has-text-weight-bold" for="datacountry">País propuesto</label>
               </div>
-              <div class="column">
-                <p>{{ this.item.data.country }}</p>
-              </div>
-            </div>
-            <div class="columns">
-              <div class="column">
-                <label for="datacountry">Canal propuesto</label>
-              </div>
-              <div class="column">
-                <p>{{ this.item.data.chanel }}</p>
+              <div class="column has-text-right">
+                <p class="is-uppercase">{{ this.item.data.country }}</p>
               </div>
             </div>
             <div class="columns">
-              <div class="column">
-                <label for="datacountry">Enlace</label>
+              <div class="column has-text-left">
+                <label class="has-text-weight-bold" for="datachanel">Canal propuesto</label>
               </div>
-              <div class="column">
-                <p>{{ this.item.data.link }}</p>
+              <div class="column has-text-right">
+                <p class="is-uppercase">{{ this.item.data.chanel }}</p>
+              </div>
+            </div>
+            <div class="columns">
+              <div class="column has-text-left">
+                <label class="has-text-weight-bold" for="datalink">Enlace</label>
+              </div>
+              <div class="column has-text-right">
+                <p class="is-uppercase">{{ this.item.data.link }}</p>
               </div>
             </div>
             <hr>
             <div class="columns">
-              <div class="column">
-                <label for="country">País</label>
+              <div class="column has-text-left">
+                <label class="has-text-weight-bold" for="country">País</label>
               </div>
               <div class="column">
                 <div class="select" style="width: 100%;">
-                  <select id="country" style="width: 100%;" @change="changeCountry($event.target.selectedIndex)">
-                    <option value="">Nuevo</option>
-                    <option v-for="(item, index) in items" :value="item.id" :data-id="item.data.id"
-                      :data-label="item.data.label" :selected="index+1 == countrySelected">
-                      [{{ item.data.id }}] {{ item.data.label }}
+                  <select id="country" style="width: 100%;" :value="countrySelected"
+                    v-on:change="countrySelected = $event.target.value; clearChanel();">
+                    <option value="0">Nuevo</option>
+                    <option v-for="(country, index) in countries" :value="country.id">
+                      [{{ country.data.id }}] {{ country.data.label || "" }}
                     </option>
                   </select>
                 </div>
@@ -65,27 +65,30 @@
                     <label class="label has-text-left" for="newcountryid">Id de país</label>
                   </div>
                   <div class="">
-                    <input class="input" type="text" id="newcountryid" maxlength="6" />
+                    <input class="input is-uppercase" type="text" id="newcountryid" maxlength="6" />
                   </div>
                   <div class="">
                     <label class="label has-text-left" for="newcountrylabel">Nombre de país</label>
                   </div>
                   <div class="">
-                    <input class="input" type="text" id="newcountrylabel" maxlength="200" />
+                    <input class="input is-uppercase" type="text" id="newcountrylabel" maxlength="200" />
                   </div>
                 </div>
               </div>
             </div>
+            <hr>
             <div class="columns">
-              <div class="column">
-                <label for="chanel">Canales</label>
+              <div class="column has-text-left">
+                <label class="has-text-weight-bold" for="chanel">Canales</label>
               </div>
               <div class="column">
                 <div class="select" style="width: 100%;">
-                  <select id="chanel" style="width: 100%;" @change="changeChanel($event.target.selectedIndex)">
-                    <option value="">Nuevo</option>
-                    <option v-for="(item, index) in chanels" :value="item" :selected="index+1 == chanelSelected">{{
-                      item.toUpperCase() }}
+                  <select id="chanel" style="width: 100%;" :value="chanelSelected"
+                    v-on:change="changeChanel($event.target.value)">
+                    <option value="0">Nuevo</option>
+                    <option v-for="(chanel, index) in chanels.filter(x => x.data.country.id == countrySelected)"
+                      :value="chanel.id">
+                      {{ chanel.data.name }}{{ chanel.data.resolution.length > 0 ? `[${chanel.data.resolution}]` : '' }}
                     </option>
                   </select>
                 </div>
@@ -94,11 +97,17 @@
             <div v-if="chanelSelected == 0" class="columns">
               <div class="column is-full">
                 <div class="is-flex is-flex-direction-column">
-                  <div class="">
-                    <label class="label has-text-left" for="newchanellabel">Nombre del canal</label>
+                  <div>
+                    <label class="label has-text-left" for="newchanelname">Nombre</label>
                   </div>
                   <div class="">
-                    <input class="input" type="text" id="newchanel" maxlength="200" />
+                    <input class="input is-uppercase" type="text" id="newchanelname" maxlength="200" />
+                  </div>
+                  <div class="">
+                    <label class="label has-text-left" for="newchanelresolution">Resolución</label>
+                  </div>
+                  <div class="">
+                    <input class="input is-uppercase" type="text" id="newchanelresolution" maxlength="10" />
                   </div>
                 </div>
               </div>
@@ -113,167 +122,142 @@
         </div>
       </footer>
     </div>
-    <!-- <div class="modal-content" style="height: auto;">
-			<div class="box my-4" style="min-height: 400px;">
-			</div>
-		</div> -->
   </div>
 </template>
 <script>
+import CountryService from '../services/country.service';
 import ChanelService from '../services/chanel.service';
+import LinkService from '../services/link.service';
+
+var country_service = new CountryService();
+var chanel_service = new ChanelService();
+var links_service = new LinkService();
 
 export default {
   name: 'ModalLinkAdd',
-  async beforeMount() {
-    this.items = await this.service.getItems();
-    console.log(this.items);
-  },
-  mounted() {
-    // if(this.item)
-    // 	this.changeCountry(this.item.id)
-    this.countrySelected = 0;
-    this.chanelSelected = 0;
-
-  },
-  updated() { },
   props: ['item'],
   emits: ['callback'],
   watch: {
     item: function (newval, oldval) {
-      var country = document.getElementById("country");
-      var chanel = document.getElementById("chanel");
-      if (country) {
-        country.value = "";
-        this.countrySelected = 0;
-      }
-      if (chanel) {
-        chanel.value = "";
-        this.chanelSelected = 0;
-      }
-      if (newval) {
-        var selectedIndex = this.items.findIndex(item => newval.data.country.toUpperCase() == item.data.id.toUpperCase() || newval.data.country.toUpperCase() == item.data.label.toUpperCase())
-        this.changeCountry(selectedIndex + 1);
-        if (chanel) {
-          chanel.value = newval.data.chanel;
-        }
-      }
+      this.clear();
     }
   },
   data() {
+    this.getData();
     return {
+      countries: [],
+      chanels: [],
       notifiactionMessage: null,
       showModal: false,
-      service: new ChanelService(),
-      chanels: {},
-      items: [],
       countrySelected: 0,
       chanelSelected: 0
     }
   },
   methods: {
+    async getData() {
+      var countries = await country_service.getItems(true);
+      if (countries.length > 0) this.countries = countries.sort((a, b) => a.data.label < b.data.label ? -1 : 1);
+      var chanels = await chanel_service.getItems(true);
+      if (chanels.length > 0) this.chanels = chanels.sort((a, b) => a.data.name < b.data.name ? -1 : 1);
+    },
     close() {
       this.showModal = false;
-      this.countrySelected = 0;
-      this.chanelSelected = 0;
-      if (document.getElementById("newcountryid")) document.getElementById("newcountryid").value = "";
-      if (document.getElementById("newcountrylabel")) document.getElementById("newcountrylabel").value = "";
-      if (document.getElementById("newchanel")) document.getElementById("newchanel").value = "";
+      this.clear();
     },
     open() {
-      console.log(this.item)
       this.showModal = true;
-      var selectedIndex = this.items.findIndex(i => {
-        console.log(i,this.item);
-       return this.item.data.country.toUpperCase() == i.data.id.toUpperCase() || this.item.data.country.toUpperCase() == i.data.label.toUpperCase()
-      })
-      this.changeCountry(selectedIndex + 1);
-      selectedIndex = this.chanels.findIndex(x => x == this.item.data.chanel.toUpperCase())
-      this.changeChanel(selectedIndex + 1);
     },
-    changeCountry(selectedIndex) {
-      this.countrySelected = selectedIndex;
+    clear() {
+      this.clearCountry();
+      this.clearChanel();
+      this.notifiactionMessage = null;
+    },
+    clearCountry() {
+      this.countrySelected = 0;
+      if (document.getElementById("newcountryid")) document.getElementById("newcountryid").value = "";
+      if (document.getElementById("newcountrylabel")) document.getElementById("newcountrylabel").value = "";
+    },
+    clearChanel() {
       this.chanelSelected = 0;
-      if (selectedIndex > 0) {
-        this.chanels = Object.keys(this.items[selectedIndex - 1].data.chanels).sort();
-      } else {
-        this.chanels = {};
-      }
-      console.log("changeCountry", this.countrySelected, this.chanels);
+      if (document.getElementById("newchanelname")) document.getElementById("newchanelname").value = "";
+      if (document.getElementById("newchanelresolution")) document.getElementById("newchanelresolution").value = "";
     },
-    changeChanel(selectedIndex) {
-      this.chanelSelected = selectedIndex;
-      console.log('changeChanel', selectedIndex, this.chanelSelected)
+    changeChanel(id) {
+      this.clearChanel();
+      this.chanelSelected = id;
+    },
+    validate() {
+      this.notifiactionMessage = null;
+      var countryid = document.getElementById("newcountryid").value.trim().toUpperCase();
+      var countrylabel = document.getElementById("newcountrylabel").value.trim().toUpperCase();
+      //Nuevo pais
+      if (document.getElementById("country").value == 0) {
+        if (countryid.length == 0) {
+          return "El nuevo id del nuevo canal no puede estar vacío";
+        } else if (countrylabel.length == 0) {
+          return "El nuevo nombre del nuevo canal no puede estar vacío";
+        }
+        if (this.countries.some(x => x.data.id.trim().toUpperCase() == countryid)) {
+          return "El id de país ya existe";
+        } else if (this.countries.some(x => x.data.label.trim().toUpperCase() == countrylabel)) {
+          return "El nombre de país ya existe";
+        }
+      }
+      //Nuevo canal
+      if (document.getElementById("chanel").value == 0) {
+        var chanelname = document.getElementById("newchanelname").value.trim().toUpperCase();
+        if (chanelname.length == 0) {
+          return "El nuevo canal no puede estar vacío";
+        } else if (this.chanels.some(x => x.data.name.trim().toUpperCase() == chanelname)) {
+          return "Este canal ya existe";
+        }
+      }
+      return true;
     },
     async save() {
-      var data = null, id = null, countrytext = "", chaneltext = "";
-      this.notifiactionMessage = null;
-      if (document.getElementById("country").value == "") {//Nuevo pais
-        if (document.getElementById("newcountryid").value.trim().length == 0) {
-          this.notifiactionMessage = "El nuevo id del nuevo canal no puede estar vacío";
-          return;
-        } else if (document.getElementById("newcountrylabel").value.trim().length == 0) {
-          this.notifiactionMessage = "El nuevo nombre del nuevo canal no puede estar vacío";
-          return;
-        }
-        var countryid = document.getElementById("newcountryid").value.trim().replace("[", "").replace("]", "").toUpperCase();
-        var countrytext = document.getElementById("newcountrylabel").value.trim().toUpperCase();
-        if (this.items.find(x => x.data.id == countryid)) {
-          this.notifiactionMessage = "El id de país ya existe";
-          return;
-        } else if (this.items.find(x => x.data.label == countrytext)) {
-          this.notifiactionMessage = "El nombre de país ya existe";
-          return;
-        }
-        data = {
-          id: countryid,
-          label: countrytext,
-          chanels: {}
-        }
-
-      } else {
-        id = document.getElementById("country").value;
-        data = this.items.find(x => x.id == id).data;
-        countrytext = document.getElementById("country").selectedOptions[0].dataset.label;
-      }
-      if (document.getElementById("chanel").value == "") {//Nuevo canal
-        if (document.getElementById("newchanel").value.length == 0) {
-          this.notifiactionMessage = "El nuevo canal no puede estar vacío";
-          return;
-        } else {
-          var chanel = document.getElementById("newchanel").value.trim().toUpperCase();
-          if (data.chanels.hasOwnProperty(chanel)) {
-            this.notifiactionMessage = "Este canal ya existe";
-            return;
+      var validate = this.validate();
+      if (validate === true) {
+        var country = document.getElementById("country").value;
+        var chanel = document.getElementById("chanel").value;
+        var chanelitem, countryitem, response = { country: "", chanel: "" };
+        //Nuevo pais
+        if (country == 0) {
+          countryitem = {
+            id: document.getElementById("newcountryid").value.trim().toUpperCase(),
+            label: document.getElementById("newcountrylabel").value.trim().toUpperCase()
           }
-          data.chanels[chanel] = [this.item.data.link]
-          chaneltext = chanel;
-        }
-      } else {
-        if (data.chanels.hasOwnProperty(document.getElementById("chanel").value)) {
-          if (data.chanels[document.getElementById("chanel").value].includes(this.item.data.link)) {
-            this.notifiactionMessage = "Este enlace ya existe";
-            return;
-          }
-          chaneltext = document.getElementById("chanel").value.trim();
-          data.chanels[chaneltext].push(this.item.data.link)
+          country = await country_service.addDoc(countryitem);
+          response.country = `[${countryitem.id}] ${countryitem.label}`;
         } else {
-          this.notifiactionMessage = "Canal no encontroado";
-          return;
-
+          countryitem = this.countries.find(x => x.id == country);
+          response.country = `[${countryitem.data.id}] ${countryitem.data.label}`;
         }
-      }
-      console.log('save', { chanel: chaneltext, country: countrytext });
-      var response = true;
-      if(id){
-        response = await this.service.updateDoc(id, data);
+        //Nuevo canal
+        if (chanel == 0) {
+          chanelitem = {
+            name: document.getElementById("newchanelname").value.trim().toUpperCase(),
+            resolution: document.getElementById("newchanelresolution").value.trim().toUpperCase(),
+            country: country_service.reference(country)
+          }
+          chanel = await chanel_service.addDoc(chanelitem);
+          response.chanel = `${chanelitem.name}${chanelitem.resolution.length > 0 ? ` [${chanelitem.resolution}]` : ''}}`;
+        } else {
+          chanelitem = this.chanels.find(x => x.id == chanel);
+          response.chanel = `${chanelitem.data.name}${chanelitem.data.resolution.length > 0 ? `[${chanelitem.data.resolution}]` : ''}`;
+        }
+        var newlink = {
+          link: this.item.data.link,
+          feed_up: 0,
+          feed_down: 0,
+          chanel: chanel_service.reference(chanel)
+        }
+        await links_service.addDoc(newlink);
+        this.close();
+        this.$emit('callback', response);
       } else {
-        response = await this.service.addDoc(data);
+        this.notifiactionMessage = validate;
+        return;
       }
-      if(response){
-        this.items = await this.service.getItems(true);
-      }
-      this.close();
-      this.$emit('callback', response ? { chanel: chaneltext, country: countrytext } : false);
     }
   }
 }

@@ -1,8 +1,8 @@
 import { ServicesBase } from "./services-base";
-const name = "chanels";
+const name = process.env.VUE_APP_COLLECTION_CHANELS_NAME;
 
 export default class Chanels extends ServicesBase {
   constructor() {
-    super(name, process.env.VUE_APP_LOCALSTORAGE_CHANELS);
+    super(name);
   }
 }

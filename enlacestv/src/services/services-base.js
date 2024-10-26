@@ -3,18 +3,18 @@ import { FirebaseService } from "./firebase.service";
 export class ServicesBase {
   constructor(
     name = "",
-    StorageKey
+    StorageKey = null
   ) {
-    if (StorageKey) this.StorageKey = StorageKey;
-    else if (this.sessionStorage.get('StorageKey')) this.StorageKey = this.sessionStorage.get('StorageKey');
+    this.StorageKey_name = `${name}_StorageKey`;
+    if (StorageKey) this.StorageKey_value = StorageKey;
+    else if (sessionStorage.getItem(this.StorageKey_name)) this.StorageKey_value = sessionStorage.getItem(this.StorageKey_name);
     else {
-      this.StorageKey = Math.random().toString(36).slice(2);
-      this.sessionStorage.set('StorageKey', StorageKey);
+      this.StorageKey_value = Math.random().toString(36).slice(2);
+      sessionStorage.setItem(this.StorageKey_name, StorageKey);
     }
     this.name = name;
     this.querySnapshot = null;
     this.firebaseService = new FirebaseService();
-    // this.getAllDocs();
   }
   async getAllDocs(force = false) {
     if (this.querySnapshot == null || force == true) {
@@ -23,9 +23,8 @@ export class ServicesBase {
   }
   async getItems(force = false) {
     var items = [];
-    // var storageValues = this.getCookie(this.StorageKey);
-    var storageValues = sessionStorage.getItem(this.storageValues);
-    if (storageValues == null || force == true) {
+    var storageValues = sessionStorage.getItem(this.StorageKey_name);
+    if (JSON.parse(sessionStorage.getItem(this.StorageKey_name)) == null || force == true) {
       if (this.querySnapshot == null || force) {
         await this.getAllDocs(force);
       }
@@ -34,8 +33,7 @@ export class ServicesBase {
           items.push({ id: doc.id, data: doc.data() });
         });
       }
-      // this.setCookie(this.StorageKey,JSON.stringify(items));
-      sessionStorage.setItem(this.StorageKey, JSON.stringify(items));
+      sessionStorage.setItem(this.StorageKey_name, JSON.stringify(items));
     } else {
       items = JSON.parse(storageValues);
     }
@@ -57,19 +55,27 @@ export class ServicesBase {
     return this.firebaseService.getDoc(this.name, id);
   }
   async updateDoc(id, data) {
-    return await this.firebaseService.updateCollectionDoc(this.name, id.trim(), data);
+    var response = await this.firebaseService.updateCollectionDoc(this.name, id.trim(), data);
+    if (response == true) this.getItems(true);
+    return response;
   }
   async addDoc(data) {
-    return await this.firebaseService.addCollectionDoc(this.name, data);
+    var response = await this.firebaseService.addCollectionDoc(this.name, data);
+    if (response !== false) this.getItems(true);
+    return response;
   }
   async deleteDoc(id) {
-    return await this.firebaseService.deleteCollectionDoc(this.name, id.trim());
+    var response = await this.firebaseService.deleteCollectionDoc(this.name, id.trim());
+    if (response == true) this.getItems(true);
+    return response;
+  }
+  reference(id) {
+    return this.firebaseService.reference(`${this.name}/${id}`);
   }
   setCookie(cname, cvalue) {
     let d = new Date();
     d.setMinutes(d.getMinutes() + 5);
     let expires = "expires=" + d.toUTCString();
-    console.log(cname + "=" + cvalue + ";" + expires + ";")
     document.cookie = cname + "=" + cvalue + ";" + expires + ";";
   }
   getCookie(cname) {

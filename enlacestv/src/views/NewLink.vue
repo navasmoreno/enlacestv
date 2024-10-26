@@ -13,14 +13,14 @@
           <div class="field">
             <label class="label is-large">País</label>
             <div class="control">
-              <input class="input is-large" type="text" id="country" placeholder="Nombre del país" required>
+              <input class="input is-large is-uppercase" type="text" id="country" placeholder="Nombre del país" required>
             </div>
             <small>Ejemplo: España o ES</small>
           </div>
           <div class="field">
             <label class="label is-large">Canal</label>
             <div class="control">
-              <input class="input is-large" type="text" id="chanel" placeholder="Nombre del canal" required>
+              <input class="input is-large is-uppercase" type="text" id="chanel" placeholder="Nombre del canal" required>
             </div>
           </div>
           <div class="field">
