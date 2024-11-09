@@ -32,7 +32,7 @@
                 {{ item.data.chanel }}
               </td>
               <td class="is-uppercase">
-                {{ item.data.link }}
+                <a v-bind:href="item.data.link" >{{ item.data.link }}</a>
               </td>
               <td>
                 <div class="is-flex is-justify-content-space-evenly">
