@@ -188,10 +188,10 @@ export default {
     },
     validate() {
       this.notifiactionMessage = null;
-      var countryid = document.getElementById("newcountryid").value.trim().toUpperCase();
-      var countrylabel = document.getElementById("newcountrylabel").value.trim().toUpperCase();
       //Nuevo pais
       if (document.getElementById("country").value == 0) {
+        var countryid = document.getElementById("newcountryid").value.trim().toUpperCase();
+        var countrylabel = document.getElementById("newcountrylabel").value.trim().toUpperCase();
         if (countryid.length == 0) {
           return "El nuevo id del nuevo canal no puede estar vacío";
         } else if (countrylabel.length == 0) {
