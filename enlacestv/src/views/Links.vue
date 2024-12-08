@@ -15,7 +15,7 @@
         <div class="">
           <section class="accordions">
             <article v-for="country in countries" class="accordion is-primary">
-              <div class="accordion-header toggle">
+              <div v-if="chanels.some(x => x.data.country.id == country.id)" class="accordion-header toggle">
                 <div class="has-text-left has-text-weight-bold is-size-4 pl-4 " style="width: 100%;">
                   [{{ country.data.id }}] {{ country.data.label || "" }}
                 </div>
@@ -24,14 +24,15 @@
                 <div class="accordion-content">
                   <div class="content">
                     <div class="columns is-multiline is-mobile column-gap">
-                      <div v-for="chanel in chanels.filter(x => x.data.country.id == country.id)"
+                      <div v-for="chanel in chanels.filter(x => x.data.country.id == country.id)" 
                         class="column is-one-quarter-desktop">
-                        <div class="card text-center">
+                        <div v-if="links.some(x => x.data.chanel.id == chanel.id)" class="card text-center">
                           <div class="card-content">
                             <div class="card-header">
                               <div class="card-header-title">
                                 <font-awesome-icon icon="fa-solid fa-desktop" class="mr-1" />
-                                {{ chanel.data.name }}{{ chanel.data.resolution.length > 0 ? ` [${chanel.data.resolution}]` : '' }}
+                                {{ chanel.data.name }}{{ chanel.data.resolution.length > 0 ? `
+                                [${chanel.data.resolution}]` : '' }}
                               </div>
                             </div>
                             <div class="content pt-2">
@@ -99,11 +100,11 @@ export default {
   },
   methods: {
     async getData(force = false) {
-      var countries = await countries_service.getItems(true);
+      var countries = await countries_service.getItems(force);
       if (countries.length > 0) this.countries = countries.sort((a, b) => a.data.label < b.data.label ? -1 : 1);
-      var chanels = await chanels_service.getItems(true);
+      var chanels = await chanels_service.getItems(force);
       if (chanels.length > 0) this.chanels = chanels.sort((a, b) => a.data.name < b.data.name ? -1 : 1);
-      this.links = await links_service.getItems(true);
+      this.links = await links_service.getItems(force);
       bulmaAccordion.attach();
     },
     setUp(id) {

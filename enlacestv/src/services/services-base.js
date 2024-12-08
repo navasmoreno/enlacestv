@@ -1,10 +1,7 @@
 import { FirebaseService } from "./firebase.service";
 
 export class ServicesBase {
-  constructor(
-    name = "",
-    StorageKey = null
-  ) {
+  constructor(name = "", StorageKey = null) {
     this.StorageKey_name = `${name}_StorageKey`;
     if (StorageKey) this.StorageKey_value = StorageKey;
     else if (sessionStorage.getItem(this.StorageKey_name)) this.StorageKey_value = sessionStorage.getItem(this.StorageKey_name);
@@ -29,8 +26,9 @@ export class ServicesBase {
         await this.getAllDocs(force);
       }
       if (this.querySnapshot != null) {
-        this.querySnapshot.forEach((doc) => {
-          items.push({ id: doc.id, data: doc.data() });
+        items = this.querySnapshot.docs.map((doc) => {
+          var item = { id: doc.id, data: this.mapDataItem(doc.data()) };
+          return item;
         });
       }
       sessionStorage.setItem(this.StorageKey_name, JSON.stringify(items));
@@ -38,7 +36,32 @@ export class ServicesBase {
       items = JSON.parse(storageValues);
     }
     return items;
-
+  }
+  mapDataItem(data) {
+    var datareturn;
+    if (data.constructor.name.toLowerCase() == "object") {
+      datareturn = {};
+      Object.keys(data).forEach((key) => {
+        datareturn[key] = this.mapItem(data[key]);
+      });
+    } else if (data.constructor.name.toLowerCase() == "array") {
+      datareturn = [];
+      data.forEach((key) => {
+        datareturn.push(this.mapItem(data[key]));
+      });
+    }
+    return datareturn;
+  }
+  mapItem(item) {
+    switch (item.constructor.name.toLowerCase()) {
+      case "documentreference":
+        return { id: item.id,path:item.path };
+      case "object":
+        case "array":
+        return this.mapDataItem(item);
+      default:
+        return item;
+    }
   }
   getCollection() {
     return this.firebaseService.getCollection(this.name);
@@ -49,7 +72,7 @@ export class ServicesBase {
       await this.getAllDocs();
     }
     if (this.querySnapshot != null) {
-      const item = this.querySnapshot.docs.find(item => item.id == id);
+      const item = this.querySnapshot.docs.find((item) => item.id == id);
       if (!!item) return item.data();
     }
     return this.firebaseService.getDoc(this.name, id);
@@ -81,10 +104,10 @@ export class ServicesBase {
   getCookie(cname) {
     let name = cname + "=";
     let decodedCookie = decodeURIComponent(document.cookie);
-    let ca = decodedCookie.split(';');
+    let ca = decodedCookie.split(";");
     for (let i = 0; i < ca.length; i++) {
       let c = ca[i];
-      while (c.charAt(0) == ' ') {
+      while (c.charAt(0) == " ") {
         c = c.substring(1);
       }
       if (c.indexOf(name) == 0) {
