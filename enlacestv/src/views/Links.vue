@@ -100,6 +100,7 @@ export default {
   },
   methods: {
     async getData(force = false) {
+      debugger
       var countries = await countries_service.getItems(force);
       if (countries.length > 0) this.countries = countries.sort((a, b) => a.data.label < b.data.label ? -1 : 1);
       var chanels = await chanels_service.getItems(force);
