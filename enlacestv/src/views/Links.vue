@@ -2,11 +2,11 @@
   <div class="container is-fluid is-mobile">
     <div class="columns is-vcentered is-mobile">
       <div class="column is-8 is-offset-1 p-0">
-        <div class="is-size-4-mobile is-size-3">
+        <div class="is-size-4-mobile is-size-3 is-pulled-left">
           Enlaces para Acestream
         </div>
       </div>
-      <div class="column is-2 is-pulled-right">
+      <div class="column is-1 is-pulled-right">
         <img class="image" src="@/assets/logo.png" />
       </div>
     </div>
@@ -97,7 +97,6 @@ export default {
       countries: [],
       chanels: [],
       links: [],
-      accordions: [],
       spin: false
     }
   },

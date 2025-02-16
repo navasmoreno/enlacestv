@@ -50,9 +50,8 @@
   </div>
 </template>
 <script>
-import sendemailService from '@/services/sendemail.service';
+// import sendemailService from '@/services/sendemail.service';
 import NewLinkService from '../services/newlink.service';
-// import SendEmailService from '@/service/send'
 var service = new NewLinkService();
 
 export default {
@@ -61,6 +60,7 @@ export default {
     document.getElementById("country").focus();
   },
   data() {
+    // sendemailService.Send('navas.moreno.devs@gmail.com','Prueba de envío','Cuerpo del envio');
     return {
       notifiactionMessage: null,
       notifiactionType: "is-info"
@@ -94,8 +94,8 @@ export default {
         this.changeContainer();
         this.notifiactionType = "is-primary";
         this.notifiactionMessage = "Solicitud enviada";
-        var contentemail = `Se ha solicitado un nuevo enlace:\n- País: ${data.country}\nCanal: ${data.chanel}\nEnlace: ${data.link}`;
-        sendemailService.Send('navas.moreno.devs@gmail.com','Nuevo enlace solicitado',contentemail);
+        // var contentemail = `Se ha solicitado un nuevo enlace:\n- País: ${data.country}\nCanal: ${data.chanel}\nEnlace: ${data.link}`;
+        // sendemailService.Send('navas.moreno.devs@gmail.com','Nuevo enlace solicitado',contentemail);
 
       });
     }

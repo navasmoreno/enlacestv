@@ -18,6 +18,7 @@ export default {
                 subject: subject,
                 html: content,
             });
+            console.log(error);
             if (error) response.error = error;
             else response.done = true;
         }
