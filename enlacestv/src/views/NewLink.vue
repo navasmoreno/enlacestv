@@ -50,16 +50,18 @@
   </div>
 </template>
 <script>
+// import sendemailService from '@/services/sendemail.service';
 import NewLinkService from '../services/newlink.service';
+var service = new NewLinkService();
+
 export default {
   name: 'NewLink',
   mounted() {
     document.getElementById("country").focus();
   },
   data() {
-    var service = new NewLinkService();
+    // sendemailService.Send('navas.moreno.devs@gmail.com','Prueba de envío','Cuerpo del envio');
     return {
-      service: service,
       notifiactionMessage: null,
       notifiactionType: "is-info"
     }
@@ -88,10 +90,13 @@ export default {
         created:false,
         createdon: new Date().toISOString()
       }
-      this.service.addDoc(data).then(response => {
+      service.addDoc(data).then(response => {
         this.changeContainer();
         this.notifiactionType = "is-primary";
         this.notifiactionMessage = "Solicitud enviada";
+        // var contentemail = `Se ha solicitado un nuevo enlace:\n- País: ${data.country}\nCanal: ${data.chanel}\nEnlace: ${data.link}`;
+        // sendemailService.Send('navas.moreno.devs@gmail.com','Nuevo enlace solicitado',contentemail);
+
       });
     }
   }
