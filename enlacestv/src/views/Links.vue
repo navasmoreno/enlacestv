@@ -2,7 +2,7 @@
   <div class="container is-fluid is-mobile">
     <div class="columns is-vcentered is-mobile">
       <div class="column is-8 is-offset-1 p-0">
-        <div class="is-size-4-mobile is-size-3-tablet is-size-1-desktop">
+        <div class="is-size-4-mobile is-size-3">
           Enlaces para Acestream
         </div>
       </div>
@@ -88,6 +88,9 @@ var links_service = new LinkService();
 
 export default {
   name: 'Links',
+  mounted(){
+    bulmaAccordion.attach();
+  },
   data() {
     this.getData();
     return {
@@ -100,13 +103,11 @@ export default {
   },
   methods: {
     async getData(force = false) {
-      debugger
       var countries = await countries_service.getItems(force);
       if (countries.length > 0) this.countries = countries.sort((a, b) => a.data.label < b.data.label ? -1 : 1);
       var chanels = await chanels_service.getItems(force);
       if (chanels.length > 0) this.chanels = chanels.sort((a, b) => a.data.name < b.data.name ? -1 : 1);
       this.links = await links_service.getItems(force);
-      bulmaAccordion.attach();
     },
     setUp(id) {
       this.setFeedback(true, id);

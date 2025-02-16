@@ -15,14 +15,25 @@ ARG APP_NAME
 
 #Para proyecto migrado
 # WORKDIR /usr/src/apps/${APP_NAME}
-# CMD npm install &&\
+# RUN npm install -g npm@11.1.0;
+# CMD echo "----------- START RUNNING -----------"&&\
+#     echo "----------- npm-check-updates -----------"&&\
+#     npm i -g npm-check-updates && ncu -u &&\
+#     echo "----------- npm install -----------"&&\
+#     npm install &&\
+#     echo "----------- UNINSTALLING CHECK-UPDATES -----------"&&\
+#     npm uninstall -g npm-check-updates &&\#     
+#     echo "----------- END INSTALLING -----------"&&\
+#     echo "----------- RUN SERVER -----------"&&\
 #     chmod 777 -R .&&\ 
 #     npm run serve;
 
 # Para proyecto en desarrollo
 WORKDIR /usr/src/apps/${APP_NAME}
-RUN npm i -g yarn --force;
-CMD chmod 777 -R .&&\
+RUN npm update;
+CMD echo "----------- START RUNNING -----------"&&\
+    chmod 777 -R .&&\
+    echo "----------- RUN SERVER -----------"&&\
     npm run serve;
 
 EXPOSE 8080
