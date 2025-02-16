@@ -89,7 +89,6 @@ var links_service = new LinkService();
 export default {
   name: 'Links',
   mounted(){
-    bulmaAccordion.attach();
   },
   data() {
     this.getData();
@@ -107,6 +106,7 @@ export default {
       var chanels = await chanels_service.getItems(force);
       if (chanels.length > 0) this.chanels = chanels.sort((a, b) => a.data.name < b.data.name ? -1 : 1);
       this.links = await links_service.getItems(force);
+      bulmaAccordion.attach();
     },
     setUp(id) {
       this.setFeedback(true, id);
