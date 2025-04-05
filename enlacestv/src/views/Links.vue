@@ -21,13 +21,13 @@
                 </div>
               </div>
               <div class="accordion-body">
-                <div class="accordion-content">
+                <div class="accordion-content p-1">
                   <div class="content">
                     <div class="columns is-multiline is-mobile column-gap">
-                      <div v-for="chanel in chanels.filter(x => x.data.country.id == country.id)" 
-                        class="column is-one-quarter-desktop">
+                      <div v-for="chanel in chanels.filter(x => x.data.country.id == country.id)"
+                        class="column is-full-mobile is-half-tablet is-one-quarter-desktop">
                         <div v-if="links.some(x => x.data.chanel.id == chanel.id)" class="card text-center">
-                          <div class="card-content">
+                          <div class="card-content p-2">
                             <div class="card-header">
                               <div class="card-header-title">
                                 <font-awesome-icon icon="fa-solid fa-desktop" class="mr-1" />
@@ -37,23 +37,21 @@
                             </div>
                             <div class="content pt-2">
                               <div class="buttons">
-                                <div v-for="(link, index) in links.filter(x => x.data.chanel.id == chanel.id)" class=""
-                                  style="width: 100%;">
-                                  <a class="button is-link is-light is-medium is-full" :title="link.data.link"
-                                    :href="link.data.link" rel="nofollow" style="width: 100%;">
+                                <div v-for="(link, index) in links.filter(x => x.data.chanel.id == chanel.id).sort((a,b)=> {
+                                  return a.data.feed_up-a.data.feed_down > b.data.feed_up-b.data.feed_down ? -1 : 1;
+                                })"
+                                  class="is-flex is-flex-wrap-wrap is-size-6 is-justify-content-center is-flex-grow-1">
+                                  <a class="button is-link is-light" :title="link.data.link" :href="link.data.link"
+                                    rel="nofollow">
                                     <p class="mr-3 mb-0 is-uppercase">Enlace {{ index + 1 }}</p>
                                     <font-awesome-icon icon="fa-solid fa-up-right-from-square" />
                                   </a>
-                                  <div class="is-flex justify-content">
-                                    <button class="button is-medium is-success is-flex-grow-1"
-                                      v-on:click="setUp(link.id)">
+                                  <div>
+                                    <button class="button is-medium is-success" v-on:click="setUp(link.id)" :title="link.data.feed_up">
                                       <font-awesome-icon icon="fa-solid fa-thumbs-up" />
-                                      <div class="ml-2">{{ link.data.feed_up }}</div>
                                     </button>
-                                    <button class="button is-medium is-danger is-flex-grow-1"
-                                      v-on:click="setDown(item._id)">
+                                    <button class="button is-medium is-danger" v-on:click="setDown(link.id)" :title="link.data.feed_down">
                                       <font-awesome-icon icon="fa-solid fa-thumbs-down" />
-                                      <div class="ml-2">{{ link.data.feed_down }}</div>
                                     </button>
                                   </div>
                                 </div>
@@ -88,7 +86,7 @@ var links_service = new LinkService();
 
 export default {
   name: 'Links',
-  mounted(){
+  mounted() {
   },
   data() {
     this.getData();
@@ -115,13 +113,17 @@ export default {
       this.setFeedback(false, id);
     },
     setFeedback(value = null, id) {
-      var link = this.links.find(x => x.id = id);
+      var link = this.links.find(x => x.id == id);
       if (link) {
-        if (value === true)
+        if (value === true) {
           link.data.feed_up++;
-        if (value === false)
+          links_service.updateDocAttribute(link.id, "feed_up", link.data.feed_up);
+        }
+        if (value === false) {
           link.data.feed_down++;
-        links_service.updateDoc(link.id, link.data);
+          links_service.updateDocAttribute(link.id, "feed_down", link.data.feed_down);
+        }
+        // links_service.updateDoc(link.id, link.data);
       }
     }
 
