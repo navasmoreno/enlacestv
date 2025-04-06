@@ -25,9 +25,9 @@
                   <div class="accordion-content p-1">
                     <div class="content">
                       <div class="columns is-multiline is-mobile column-gap">
-                        <div v-for="chanel in chanels.filter(x => x.data.country.id == country.id)"
+                        <div v-for="chanel in chanels.filter(c => c.data.country.id == country.id && links.some(l => l.data.chanel.id == c.id))"
                           class="column is-full-mobile is-6-tablet is-4-desktop is-3-widescreen ">
-                          <div v-if="links.some(x => x.data.chanel.id == chanel.id)" class="card text-center">
+                          <div class="card text-center">
                             <div class="card-content p-2">
                               <div class="card-header">
                                 <div class="card-header-title">
