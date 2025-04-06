@@ -1,4 +1,9 @@
 @import '~bulma';
+:root {
+    --bulma-link-h: 171deg;
+    --bulma-link-s: 23%;
+    --bulma-link-l: 56%;
+}
 html,body, div#app {
     width: 100%;
     height: 100%;
