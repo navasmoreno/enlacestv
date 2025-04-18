@@ -7,7 +7,7 @@
         </div>
       </div>
       <div class="column is-1 is-pulled-right">
-        <img class="image" src="@/assets/logo.png" style="min-width: 100px;"/>
+        <img class="image" src="@/assets/logo.png" style="min-width: 100px;" />
       </div>
     </div>
     <div class="columns">
@@ -15,7 +15,8 @@
         <div class="">
           <section class="accordions">
             <article v-for="country in countries" class="accordion is-primary">
-              <div v-if="chanels.some(c => c.data.country.id == country.id && links.filter(l => l.data.chanel.id == c.id))">
+              <div
+                v-if="chanels.some(c => c.data.country.id == country.id && links.filter(l => l.data.chanel.id == c.id))">
                 <div class="accordion-header toggle">
                   <div class="has-text-left has-text-weight-bold is-size-4 pl-4 " style="width: 100%;">
                     [{{ country.data.id }}] {{ country.data.label || "" }}
@@ -24,9 +25,10 @@
                 <div class="accordion-body">
                   <div class="accordion-content p-1">
                     <div class="content">
-                      <div class="columns is-multiline is-mobile column-gap">
-                        <div v-for="chanel in chanels.filter(c => c.data.country.id == country.id && links.some(l => l.data.chanel.id == c.id))"
-                          class="column is-full-mobile is-6-tablet is-4-desktop is-3-widescreen ">
+                      <div class="grid is-col-min-12">
+                        <div
+                          v-for="chanel in chanels.filter(c => c.data.country.id == country.id && links.some(l => l.data.chanel.id == c.id))"
+                          class="cell">
                           <div class="card text-center">
                             <div class="card-content p-2">
                               <div class="card-header">
@@ -42,19 +44,23 @@
                                     return a.data.feed_up - a.data.feed_down > b.data.feed_up - b.data.feed_down ? -1 : 1;
                                   })"
                                     class="is-flex is-flex-wrap-wrap is-size-6 is-justify-content-center is-flex-grow-1">
-                                    <a class="button is-link is-light is-flex-grow-1" :title="link.data.link" :href="link.data.link"
-                                      rel="nofollow">
-                                      <p class="mr-3 mb-0 is-uppercase">Enlace {{ index + 1 }}</p>
+                                    <a class="button is-link is-light is-flex-grow-1 m-0 is-size-5 is-size-6" :title="link.data.link"
+                                      :href="link.data.link" rel="nofollow">
+                                      <p class="mr-1 mb-0 is-uppercase">Enlace {{ index + 1 }}</p>
                                       <font-awesome-icon icon="fa-solid fa-up-right-from-square" />
                                     </a>
                                     <div class="feed">
-                                      <button class="button is-medium is-success" v-on:click="setUp(link.id)"
+                                      <button class="button is-medium is-success is-size-5 is-size-6" v-on:click="setUp(link.id)"
                                         :title="link.data.feed_up">
-                                        <font-awesome-icon icon="fa-solid fa-thumbs-up" />
+                                        <span>
+                                          <font-awesome-icon icon="fa-solid fa-thumbs-up" /> {{ link.data.feed_up }}
+                                        </span>
                                       </button>
-                                      <button class="button is-medium is-danger" v-on:click="setDown(link.id)"
+                                      <button class="button is-medium is-danger is-size-5 is-size-6" v-on:click="setDown(link.id)"
                                         :title="link.data.feed_down">
-                                        <font-awesome-icon icon="fa-solid fa-thumbs-down" />
+                                        <span>
+                                          <font-awesome-icon icon="fa-solid fa-thumbs-down" /> {{ link.data.feed_down }}
+                                        </span>
                                       </button>
                                     </div>
                                   </div>
@@ -147,7 +153,8 @@ export default {
   .accordions .accordion.is-active .accordion-body {
     max-height: 100%;
   }
-  @media (max-width: 1450px) {
+
+  /* @media (max-width: 1450px) {
     .links.buttons {
       div.feed {
         width: 100%;
@@ -156,6 +163,6 @@ export default {
         }
       }
     }
-  }
+  } */
 }
 </style>
