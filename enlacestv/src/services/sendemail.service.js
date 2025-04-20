@@ -1,6 +1,6 @@
 import { Resend } from 'resend';
 
-const resend = new Resend('re_a3BxyMKL_3kQDCMiX47bBBd3JVo5hUUwd');
+const resend = new Resend(process.env.VUE_APP_RESEND_APIKEY);
 
 export class SendEmail {
     // constructor(){
