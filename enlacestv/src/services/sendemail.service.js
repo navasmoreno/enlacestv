@@ -12,15 +12,6 @@ export class SendEmail {
         if (!subject || subject.length == 0) {
             response.error = true;
         } else {
-            // const { data, error } = await this.resend.emails.send({
-            //     from: 'Enlaces <Acme <onboarding@resend.dev>',
-            //     to: [process.env.VUE_APP_RESEND_EMAIL],
-            //     subject: subject,
-            //     html: content,
-            // });
-            // console.log(error);
-            // if (error) response.error = error;
-            // else response.done = true;
             const options = {
                 method: 'POST',
                 mode: 'no-cors',
