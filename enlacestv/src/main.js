@@ -43,5 +43,4 @@ const router = createRouter({
   routes, // short for `routes: routes`
 });
 //#endregion
-
 createApp(App).use(router).component("font-awesome-icon", FontAwesomeIcon).component("Myheader", Myheader).component("Myfooter", Myfooter).mount("#app");

@@ -13,22 +13,32 @@
           <div class="field">
             <label class="label is-large">País</label>
             <div class="control">
-              <input class="input is-large is-uppercase" type="text" id="country" placeholder="Nombre del país" required>
+              <input class="input is-large is-uppercase" type="text" v-model="country" placeholder="Nombre del país"
+                required>
             </div>
             <small>Ejemplo: España o ES</small>
           </div>
           <div class="field">
             <label class="label is-large">Canal</label>
             <div class="control">
-              <input class="input is-large is-uppercase" type="text" id="chanel" placeholder="Nombre del canal" required>
+              <input class="input is-large is-uppercase" type="text" v-model="chanel" placeholder="Nombre del canal"
+                required>
             </div>
           </div>
           <div class="field">
-            <label class="label is-large">URL del Enlace. </label>
+            <label class="label is-large">URL del Enlace</label>
             <div class="control">
-              <input class="input is-large" type="text" id="link" placeholder="Enlace de acestream" required pattern="^(acestream:\/\/)([a-zA-Z0-9]+)$">
+              <input class="input is-large" type="text" v-model="link" placeholder="Enlace de acestream" required
+                pattern="^(acestream:\/\/)([a-zA-Z0-9]+)$">
             </div>
             <small>Formato valido: acestream://36cad67fed5a739757a9db844a551aa845a8d51b</small>
+          </div>
+          <div class="field">
+            <label class="label is-large">Email</label>
+            <div class="control">
+              <input class="input is-large" type="email" v-model="email" placeholder="Email del solicitante" required>
+            </div>
+            <small>mi_email@email.com</small>
           </div>
 
           <div class="field is-grouped mt-6">
@@ -50,18 +60,22 @@
   </div>
 </template>
 <script>
-import NewLinkService from '../services/newlink.service';
+// import SendEmail from '@/services/sendemail.service';
+import { SendEmail } from '@/services/sendemail.service';
+// var service = new NewLinkService();
+var sendemailService = new SendEmail();
+
 export default {
   name: 'NewLink',
   mounted() {
-    document.getElementById("country").focus();
+    // document.getElementById("country").focus();
   },
   data() {
-    var service = new NewLinkService();
+    sendemailService.Send('Prueba de envío', 'Cuerpo del envio');
     return {
-      service: service,
       notifiactionMessage: null,
-      notifiactionType: "is-info"
+      notifiactionType: "is-info",
+      country:"", chanel:"", link:"", email:""
     }
   },
   methods: {
@@ -79,20 +93,24 @@ export default {
     sendData: function () {
       this.changeContainer();
       this.notifiactionMessage = null;
-      
+
       const data = {
-        country: document.getElementById("country").value.toUpperCase(),
-        chanel: document.getElementById("chanel").value.toUpperCase(),
-        link: document.getElementById("link").value,
+        country: this.country,
+        chanel: this.chanel,
+        link: this.link,
+        email: this.email,
         state: 0,
-        created:false,
+        created: false,
         createdon: new Date().toISOString()
       }
-      this.service.addDoc(data).then(response => {
-        this.changeContainer();
-        this.notifiactionType = "is-primary";
-        this.notifiactionMessage = "Solicitud enviada";
-      });
+      var contentemail = `${this.email} ha solicitado un nuevo enlace:\n- País: ${this.country}\nCanal: ${this.chanel}\nEnlace: ${this.link}\nEmail enviado automaticamente\n\n`;
+      sendemailService.Send('Nuevo enlace solicitado',contentemail);
+      // service.addDoc(data).then(response => {
+      //   this.changeContainer();
+      //   this.notifiactionType = "is-primary";
+      //   this.notifiactionMessage = "Solicitud enviada";
+
+      // });
     }
   }
 }

@@ -1,5 +1,5 @@
 import { initializeApp } from 'firebase/app';
-import { collection, deleteDoc, doc, getDoc, getDocs, getFirestore, query, setDoc } from 'firebase/firestore';
+import { collection, deleteDoc, doc, getDoc, getDocs, getFirestore, query, setDoc, updateDoc } from 'firebase/firestore';
 
 export class FirebaseService {
   firebaseConfig = {
@@ -16,7 +16,11 @@ export class FirebaseService {
     // Initialize Firebase
     const app = initializeApp(this.firebaseConfig);
     // const analytics = getAnalytics(app);
-    this.db = getFirestore(app);
+    this.db = getFirestore(app
+      // , {localCache: 
+      //   persistentLocalCache(/*settings*/{tabManager: persistentMultipleTabManager()})
+      // }
+    );
   }
   getCollection = (name) => {
     debugger;
@@ -34,17 +38,16 @@ export class FirebaseService {
     }
   }
   async getAllDocs(name) {
-    const q = query(collection(this.db, name));
-    const querySnapshot = await getDocs(q);
+    const querySnapshot = await getDocs(collection(this.db, name));
     return querySnapshot;
   }
   getDocs = async (query) => {
-    const querySnapshot = await getDocs(query);
+    const querySnapshot = await query(query);
     return querySnapshot;
   }
   addCollectionDoc = async (name, data) => {
     try {
-      var id = Date.now()+Math.random().toString(36).slice(6);
+      var id = Date.now() + Math.random().toString(36).slice(6);
       await this.updateCollectionDoc(name, id.trim(), data);
       return id;
     } catch (error) {
@@ -59,6 +62,20 @@ export class FirebaseService {
       return false;
     }
   }
+  updateDocAttribute = async (name, id, field, value) => {
+    var attribute = {};
+    attribute[field] = value;
+    debugger
+    const docRef = doc(this.db, name, id);
+    const docSnap = await getDoc(docRef);
+    
+    if (docSnap.exists()) {
+      // const res = await docSnap.update(attribute);
+      const res = await updateDoc(docRef,attribute);
+      return res;
+    }
+
+  }
   deleteCollectionDoc = async (name, id) => {
     try {
       await deleteDoc(doc(this.db, name, id));
@@ -69,6 +86,6 @@ export class FirebaseService {
     }
   }
   reference = (path) => {
-    return doc(this.db,path);
+    return doc(this.db, path);
   }
 }
