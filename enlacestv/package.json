@@ -2,6 +2,9 @@
   "name": "enlacestv",
   "version": "0.1.0",
   "private": true,
+  "engines": {
+    "node": "^24.0.0"
+  },
   "scripts": {
     "serve": "vue-cli-service serve",
     "build": "vue-cli-service build",
@@ -17,10 +20,12 @@
     "bulma-extensions": "^6.2.7",
     "core-js": "^3.40.0",
     "firebase": "^11.3.1",
+    "pinia": "^2.1.7",
     "resend": "^4.1.2",
     "sass": "^1.85.0",
     "vue": "^3.5.13",
-    "vue-router": "^4.5.0"
+    "vue-router": "^4.5.0",
+    "zod": "^3.22.4"
   },
   "devDependencies": {
     "@vue/cli-service": "^5.0.8",

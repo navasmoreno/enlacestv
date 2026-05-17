@@ -1,5 +1,5 @@
 #Descarga la imagen node para instalar angular
-FROM node:lts-alpine
+FROM node:24-alpine
 
 ARG APP_NAME
 
@@ -35,5 +35,18 @@ CMD echo "----------- START RUNNING -----------"&&\
     chmod 777 -R .&&\
     echo "----------- RUN SERVER -----------"&&\
     npm run serve;
+
+# Para proyecto en desarrollo
+# WORKDIR /usr/src/apps/${APP_NAME}
+# CMD chmod 777 -R .&&\
+#     npm run serve;
+
+# Publicar un proyecto
+# WORKDIR /usr/src/apps/${APP_NAME}
+# RUN npm update;
+# CMD echo "----------- START RUNNING -----------"&&\
+#     echo "----------- RUN SERVER -----------"&&\
+#     npm run build &&\
+#     chmod 777 -R .;
 
 EXPOSE 8080

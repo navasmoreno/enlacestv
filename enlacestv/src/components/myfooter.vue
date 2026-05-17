@@ -1,5 +1,5 @@
 <template>
-	<footer class="content footer p-2 has-background-grey-lighter mt-6">
+	<footer class="content footer p-2 has-background-grey-lighter">
 		<div class="container is-fluid is-mobile mt-2">
 			<div class="columns">
 				<div class="column is-3">
@@ -20,6 +20,6 @@ footer {
 	position: relative;
 	bottom: 0px;
 	width: 100%;
-	min-height: 100px;
+	min-height: 50px;
 }
 </style>

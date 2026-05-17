@@ -14,54 +14,57 @@
       <div class="column is-10-desktop is-full is-offset-1-desktop p-0">
         <div class="">
           <section class="accordions">
-            <article v-for="country in countries" class="accordion is-primary">
-              <div
-                v-if="chanels.some(c => c.data.country.id == country.id && links.filter(l => l.data.chanel.id == c.id))">
-                <div class="accordion-header toggle">
-                  <div class="has-text-left has-text-weight-bold is-size-4 pl-4 " style="width: 100%;">
-                    [{{ country.data.id }}] {{ country.data.label || "" }}
+            <article>
+              <div v-for="country in countries" class="accordion is-primary">
+                <div
+                  v-if="chanels.some(c => c.data.country.id == country.id && links.filter(l => l.data.chanel.id == c.id))">
+                  <div class="accordion-header toggle">
+                    <div class="has-text-left has-text-weight-bold is-size-4 pl-4 " style="width: 100%;">
+                      [{{ country.data.id.toUpperCase() }}] {{ country.data.label.toUpperCase() || "" }}
+                    </div>
                   </div>
-                </div>
-                <div class="accordion-body">
-                  <div class="accordion-content p-1">
-                    <div class="content">
-                      <div class="grid is-col-min-12">
-                        <div
-                          v-for="chanel in chanels.filter(c => c.data.country.id == country.id && links.some(l => l.data.chanel.id == c.id))"
-                          class="cell">
-                          <div class="card text-center">
-                            <div class="card-content p-2">
-                              <div class="card-header">
-                                <div class="card-header-title">
-                                  <font-awesome-icon icon="fa-solid fa-desktop" class="mr-1" />
-                                  {{ chanel.data.name }}{{ chanel.data.resolution.length > 0 ? `
-                                  [${chanel.data.resolution}]` : '' }}
+                  <div class="accordion-body">
+                    <div class="accordion-content p-1">
+                      <div class="content">
+                        <div class="grid is-col-min-12">
+                          <div
+                            v-for="chanel in chanels.filter(c => c.data.country.id == country.id && links.some(l => l.data.chanel.id == c.id))"
+                            class="cell">
+                            <div class="card text-center">
+                              <div class="card-content p-2">
+                                <div class="card-header">
+                                  <div class="card-header-title">
+                                    <font-awesome-icon icon="fa-solid fa-desktop" class="mr-1" />
+                                    {{ chanel.data.name }}{{ chanel.data.resolution.length > 0 ? `
+                                    [${chanel.data.resolution}]` : '' }}
+                                  </div>
                                 </div>
-                              </div>
-                              <div class="content pt-2">
-                                <div class="links buttons">
-                                  <div v-for="(link, index) in links.filter(x => x.data.chanel.id == chanel.id).sort((a, b) => {
-                                    return a.data.feed_up - a.data.feed_down > b.data.feed_up - b.data.feed_down ? -1 : 1;
-                                  })"
-                                    class="is-flex is-flex-wrap-wrap is-size-6 is-justify-content-center is-flex-grow-1">
-                                    <a class="button is-link is-light is-flex-grow-1 m-0 is-size-5 is-size-6" :title="link.data.link"
-                                      :href="link.data.link" rel="nofollow">
-                                      <p class="mr-1 mb-0 is-uppercase">Enlace {{ index + 1 }}</p>
-                                      <font-awesome-icon icon="fa-solid fa-up-right-from-square" />
-                                    </a>
-                                    <div class="feed">
-                                      <button class="button is-medium is-success is-size-5 is-size-6" v-on:click="setUp(link.id)"
-                                        :title="link.data.feed_up">
-                                        <span>
-                                          <font-awesome-icon icon="fa-solid fa-thumbs-up" /> {{ link.data.feed_up }}
-                                        </span>
-                                      </button>
-                                      <button class="button is-medium is-danger is-size-5 is-size-6" v-on:click="setDown(link.id)"
-                                        :title="link.data.feed_down">
-                                        <span>
-                                          <font-awesome-icon icon="fa-solid fa-thumbs-down" /> {{ link.data.feed_down }}
-                                        </span>
-                                      </button>
+                                <div class="content pt-2">
+                                  <div class="links buttons">
+                                    <div v-for="(link, index) in links.filter(x => x.data.chanel.id == chanel.id).sort((a, b) => {
+                                      return a.data.feed_up - a.data.feed_down > b.data.feed_up - b.data.feed_down ? -1 : 1;
+                                    })"
+                                      class="is-flex is-flex-wrap-wrap is-size-6 is-justify-content-center is-flex-grow-1">
+                                      <a class="button is-link is-light is-flex-grow-1 m-0 is-size-6"
+                                        :title="link.data.link" :href="link.data.link" rel="nofollow">
+                                        <p class="mr-1 mb-0 is-uppercase">Enlace {{ index + 1 }}</p>
+                                        <font-awesome-icon icon="fa-solid fa-up-right-from-square" />
+                                      </a>
+                                      <div class="feed">
+                                        <button class="button is-medium is-success is-size-6"
+                                          v-on:click="setUp(link.id)" :title="link.data.feed_up">
+                                          <span>
+                                            <font-awesome-icon icon="fa-solid fa-thumbs-up" /> {{ link.data.feed_up }}
+                                          </span>
+                                        </button>
+                                        <button class="button is-medium is-danger is-size-6"
+                                          v-on:click="setDown(link.id)" :title="link.data.feed_down">
+                                          <span>
+                                            <font-awesome-icon icon="fa-solid fa-thumbs-down" /> {{ link.data.feed_down
+                                            }}
+                                          </span>
+                                        </button>
+                                      </div>
                                     </div>
                                   </div>
                                 </div>
@@ -85,18 +88,18 @@
 <script>
 import bulmaAccordion from 'bulma-extensions/bulma-accordion/dist/js/bulma-accordion.min.js'
 import 'bulma-extensions/bulma-accordion/dist/css/bulma-accordion.min.css';
-import ChanelService from '../services/chanel.service';
-import CountryService from '../services/country.service';
-import LinkService from '../services/link.service';
+import ChanelService from '@/services/chanel.service';
+import CountryService from '@/services/country.service';
+import LinkService from '@/services/link.service';
 
 var chanels_service = new ChanelService();
 var countries_service = new CountryService();
 var links_service = new LinkService();
 
-
 export default {
   name: 'Links',
   mounted() {
+    // bulmaAccordion.attach();
   },
   data() {
     this.getData();
@@ -152,6 +155,11 @@ export default {
 
   .accordions .accordion.is-active .accordion-body {
     max-height: 100%;
+    .links {
+      p {
+        max-height: auto !important;
+      }
+    }
   }
 
   /* @media (max-width: 1450px) {

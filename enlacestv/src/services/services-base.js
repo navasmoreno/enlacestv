@@ -1,83 +1,136 @@
-import { FirebaseService } from "./firebase.service";
+import { firebaseService } from "./firebase.service";
+import { Logger, NotFoundError } from "@/utils/errorHandler";
 
 export class ServicesBase {
-  constructor(name = "", StorageKey = null) {
+  constructor(name = "") {
     this.name = name;
     this.querySnapshot = null;
-    this.firebaseService = new FirebaseService();
   }
+
   async getAllDocs(force = false) {
-    // if (this.querySnapshot == null || force == true) {
-    this.querySnapshot = await this.firebaseService.getAllDocs(this.name);
-    // }
+    try {
+      this.querySnapshot = await firebaseService.getAllDocs(this.name);
+      Logger.debug(`Fetched all docs from ${this.name}`);
+    } catch (error) {
+      Logger.error(`Failed to fetch all docs from ${this.name}`, error);
+      throw error;
+    }
   }
+
   async getItems(force = false) {
-    var items = [];
-    await this.getAllDocs(force);
-    items = this.querySnapshot.docs.map((doc) => {
-      var item = { id: doc.id, data: doc.data() };
-      return item;
-    });
-    return items;
+    try {
+      await this.getAllDocs(force);
+      const items = this.querySnapshot.docs.map((doc) => ({
+        id: doc.id,
+        data: doc.data(),
+      }));
+      Logger.debug(`Retrieved ${items.length} items from ${this.name}`);
+      return items;
+    } catch (error) {
+      Logger.error(`Failed to get items from ${this.name}`, error);
+      throw error;
+    }
   }
+
   getCollection() {
-    return this.firebaseService.getCollection(this.name);
+    return firebaseService.getCollection(this.name);
   }
 
   async getDoc(id) {
-    if (this.querySnapshot == null) {
-      await this.getAllDocs();
+    try {
+      if (!this.querySnapshot) {
+        await this.getAllDocs();
+      }
+
+      if (this.querySnapshot) {
+        const item = this.querySnapshot.docs.find((doc) => doc.id === id);
+        if (item) {
+          return item.data();
+        }
+      }
+
+      // Si no está en cache, obtener del servidor
+      const data = await firebaseService.getDocItem(this.name, id);
+      if (!data) {
+        throw new NotFoundError(this.name, id);
+      }
+      return data;
+    } catch (error) {
+      Logger.error(`Failed to get document ${id} from ${this.name}`, error);
+      throw error;
     }
-    if (this.querySnapshot != null) {
-      const item = this.querySnapshot.docs.find((item) => item.id == id);
-      if (!!item) return item.data();
-    }
-    return this.firebaseService.getDoc(this.name, id);
   }
+
   async updateDoc(id, data) {
-    var response = await this.firebaseService.updateCollectionDoc(this.name, id.trim(), data);
-    if (response == true) this.getItems(true);
-    return response;
-  }
-  async updateDocAttribute(id, field, value) {
-    if(this.querySnapshot.docs.some(item=>item.id == id)){
-      const response = await this.firebaseService.updateDocAttribute(this.name,id,field,value);
+    try {
+      const response = await firebaseService.updateCollectionDoc(this.name, id.trim(), data);
+      if (response) {
+        await this.getAllDocs(true);
+      }
       return response;
+    } catch (error) {
+      Logger.error(`Failed to update document ${id} in ${this.name}`, error);
+      throw error;
     }
-    return false;
   }
+
+  async updateDocAttributes(id, data) {
+    try {
+      if (!this.querySnapshot?.docs.some(doc => doc.id === id)) {
+        throw new NotFoundError(this.name, id);
+      }
+      return await firebaseService.updateDocAttributes(this.name, id, data);
+    } catch (error) {
+      Logger.error(`Failed to update attributes for document ${id} in ${this.name}`, error);
+      throw error;
+    }
+  }
+
+  async updateDocAttribute(id, field, value) {
+    try {
+      if (!this.querySnapshot?.docs.some(doc => doc.id === id)) {
+        throw new NotFoundError(this.name, id);
+      }
+      return await firebaseService.updateDocAttribute(this.name, id, field, value);
+    } catch (error) {
+      Logger.error(`Failed to update attribute ${field} for document ${id} in ${this.name}`, error);
+      throw error;
+    }
+  }
+
   async addDoc(data) {
-    var response = await this.firebaseService.addCollectionDoc(this.name, data);
-    if (response !== false) this.getItems(true);
-    return response;
-  }
-  async deleteDoc(id) {
-    var response = await this.firebaseService.deleteCollectionDoc(this.name, id.trim());
-    if (response == true) this.getItems(true);
-    return response;
-  }
-  reference(id) {
-    return this.firebaseService.reference(`${this.name}/${id}`);
-  }
-  setCookie(cname, cvalue) {
-    let d = new Date();
-    d.setMinutes(d.getMinutes() + 5);
-    let expires = "expires=" + d.toUTCString();
-    document.cookie = cname + "=" + cvalue + ";" + expires + ";";
-  }
-  getCookie(cname) {
-    let name = cname + "=";
-    let decodedCookie = decodeURIComponent(document.cookie);
-    let ca = decodedCookie.split(";");
-    for (let i = 0; i < ca.length; i++) {
-      let c = ca[i];
-      while (c.charAt(0) == " ") {
-        c = c.substring(1);
+    try {
+      const response = await firebaseService.addCollectionDoc(this.name, data);
+      if (response) {
+        await this.getAllDocs(true);
       }
-      if (c.indexOf(name) == 0) {
-        return c.substring(name.length, c.length);
-      }
+      return response;
+    } catch (error) {
+      Logger.error(`Failed to add document to ${this.name}`, error);
+      throw error;
     }
-    return null;
+  }
+
+  async deleteDoc(id) {
+    try {
+      const response = await firebaseService.deleteCollectionDoc(this.name, id.trim());
+      if (response) {
+        await this.getAllDocs(true);
+      }
+      return response;
+    } catch (error) {
+      Logger.error(`Failed to delete document ${id} from ${this.name}`, error);
+      throw error;
+    }
+  }
+
+  reference(id) {
+    return firebaseService.reference(`${this.name}/${id}`);
+  }
+  referenceByPath(idOrPath) {
+    const path = typeof idOrPath === 'string' && idOrPath.startsWith('/')
+      ? idOrPath.replace(/^[\/]+/, '')
+      : `${this.name}/${idOrPath}`;
+    return firebaseService.reference(path);
   }
 }
