@@ -29,12 +29,14 @@ import About from "./views/About.vue";
 import Links from "./views/Links.vue";
 import HowToUse from "./views/HowToUse.vue";
 import NotFound from "./views/NotFound.vue";
-
+import NewLink from "./views/NewLink.vue";
+  
 const routes = [
   { path: "/", component: Home },
   { path: "/about", component: About },
   { path: "/howtouse", component: HowToUse },
   { path: "/links", component: Links },
+  { path: "/newlink", component: NewLink },
   { path: "/:catchAll(.*)", component: NotFound },
 ];
 

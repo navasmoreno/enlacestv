@@ -17,6 +17,8 @@
           </router-link>
           <router-link class="navbar-item" :class="{ 'is-active': isactive == 'links' }" @click="selectItem"
             data-link='links' to="/links">Enlaces</router-link>
+          <router-link class="navbar-item" :class="{ 'is-active': isactive == 'newlink' }" @click="selectItem"
+            data-link='newlink' to="/newlink">Sugerir un enlance</router-link>
           <router-link class="navbar-item" :class="{ 'is-active': isactive == 'howtouse' }" @click="selectItem"
             data-link='howtouse' to="/howtouse">Como
             usarlos</router-link>

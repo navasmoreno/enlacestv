@@ -6,6 +6,7 @@ export const COLLECTIONS = {
   LINKS: process.env.VUE_APP_COLLECTION_LINKS_NAME || 'link',
   CHANELS: process.env.VUE_APP_COLLECTION_CHANELS_NAME || 'chanel',
   COUNTRIES: process.env.VUE_APP_COLLECTION_COUNTRIES_NAME || 'country',
+  NEW_LINKS: process.env.VUE_APP_COLLECTION_NEWLINKS_NAME || 'newlink',
   RESOLUTIONS: process.env.VUE_APP_COLLECTION_RESOLUTION_NAME || 'resolution',
 };
 
