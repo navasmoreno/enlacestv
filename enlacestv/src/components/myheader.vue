@@ -17,31 +17,9 @@
           </router-link>
           <router-link class="navbar-item" :class="{ 'is-active': isactive == 'links' }" @click="selectItem"
             data-link='links' to="/links">Enlaces</router-link>
-          <router-link class="navbar-item" :class="{ 'is-active': isactive == 'newlink' }" @click="selectItem"
-            data-link='newlink' to="/newlink">Sugerir un
-            enlance</router-link>
           <router-link class="navbar-item" :class="{ 'is-active': isactive == 'howtouse' }" @click="selectItem"
             data-link='howtouse' to="/howtouse">Como
             usarlos</router-link>
-          <div class="navbar-item has-dropdown is-hoverable pb-0">
-            <a class="navbar-link" :class="{ 'is-active': isactive && isactive.includes('manage') }">
-              Configuración
-            </a>
-            <div class="navbar-dropdown pt-0" style="border: none">
-              <router-link class="navbar-item" :class="{ 'is-active': isactive == 'manage/resolutions' }"
-                @click="selectItem" data-link='manage/resolutions' to="/manage/resolutions">Resoluciones</router-link>
-              <router-link class="navbar-item" :class="{ 'is-active': isactive == 'manage/countries' }"
-                @click="selectItem" data-link='manage/countries' to="/manage/countries">Paises</router-link>
-              <router-link class="navbar-item" :class="{ 'is-active': isactive == 'manage/chanels' }"
-                @click="selectItem" data-link='manage/chanels' to="/manage/chanels">Canales</router-link>
-              <router-link class="navbar-item" :class="{ 'is-active': isactive == 'manage/links' }" @click="selectItem"
-                data-link='manage/links' to="/manage/links">Enlaces</router-link>
-              <router-link class="navbar-item" :class="{ 'is-active': isactive == 'manage/newlinks' }" @click="selectItem"
-                data-link='manage/newlinks' to="/manage/newlinks">Enlaces sugeridos</router-link>
-            </div>
-          </div>
-          <router-link class="navbar-item" :class="{ 'is-active': isactive == 'hacerCosas' }" @click="selectItem"
-            data-link='hacerCosas' to="/hacerCosas">Hacer cosas</router-link>
         </div>
 
         <div class="navbar-end">

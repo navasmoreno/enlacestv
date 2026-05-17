@@ -29,26 +29,12 @@ import About from "./views/About.vue";
 import Links from "./views/Links.vue";
 import HowToUse from "./views/HowToUse.vue";
 import NotFound from "./views/NotFound.vue";
-import NewLink from "./views/NewLink.vue";
-import NewLinks from "./views/NewLinks.vue";
-import ManageLinks from "./views/ManageLinks.vue";
-import ManageCountries from "./views/ManageCountries.vue";
-import ManageChanels from "./views/ManageChanels.vue";
-import ManageResolutions from "./views/ManageResolutions.vue";
-import HacerCosas from "./views/HacerCosas.vue";
 
 const routes = [
   { path: "/", component: Home },
   { path: "/about", component: About },
   { path: "/howtouse", component: HowToUse },
   { path: "/links", component: Links },
-  { path: "/newlink", component: NewLink },
-  { path: "/manage/newlinks", component: NewLinks },
-  { path: "/manage/links", component: ManageLinks },
-  { path: "/manage/chanels", component: ManageChanels },
-  { path: "/manage/countries", component: ManageCountries },
-  { path: "/manage/resolutions", component: ManageResolutions },
-  { path: "/hacerCosas", component: HacerCosas },
   { path: "/:catchAll(.*)", component: NotFound },
 ];
 
